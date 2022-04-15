@@ -1,7 +1,0 @@
-@theme "material.rasi"
-
-configuration {
-    modi: "drun,window,run,ssh";
-    terminal: "alacritty";
-    icon-theme: "Papirus-dark";
-}
