@@ -7,13 +7,13 @@ return {
     keys = {
       {
         "j",
-        "<Plug>(accelerated_jk_gj)",
+        "<Plug>(accelerated_jk_j)",
         desc = "Accelerated j",
         mode = { "n" },
       },
       {
         "k",
-        "<Plug>(accelerated_jk_gk)",
+        "<Plug>(accelerated_jk_k)",
         desc = "Accelerated k",
         mode = { "n" },
       },
@@ -50,12 +50,12 @@ return {
     "gbprod/yanky.nvim",
     opts = {},
     keys = {
-      { "p", "<Plug>(YankyPutAfter)", mode = { "n", "x" } },
-      { "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" } },
-      { "gp", "<Plug>(YankyGPutAfter)", mode = { "n", "x" } },
-      { "gP", "<Plug>(YankyGPutBefore)", mode = { "n", "x" } },
-      { "y", "<Plug>(YankyYank)", mode = { "n", "x" } },
-      { "<M-S-n>", "<Plug>(YankyCycleForward)", mode = { "n" } },
+      { "p",       "<Plug>(YankyPutAfter)",      mode = { "n", "x" } },
+      { "P",       "<Plug>(YankyPutBefore)",     mode = { "n", "x" } },
+      { "gp",      "<Plug>(YankyGPutAfter)",     mode = { "n", "x" } },
+      { "gP",      "<Plug>(YankyGPutBefore)",    mode = { "n", "x" } },
+      { "y",       "<Plug>(YankyYank)",          mode = { "n", "x" } },
+      { "<M-S-n>", "<Plug>(YankyCycleForward)",  mode = { "n" } },
       { "<M-S-p>", "<Plug>(YankyCycleBackward)", mode = { "n" } },
       {
         "[y",

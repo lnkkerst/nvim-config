@@ -13,6 +13,7 @@ return {
 
   {
     "lukas-reineke/lsp-format.nvim",
+    enabled = false,
     lazy = true,
     opts = {},
   },
@@ -54,10 +55,6 @@ return {
           none_ls.builtins.diagnostics.commitlint,
           none_ls.builtins.diagnostics.selene,
         },
-        on_attach = function(client, bufnr)
-          require("utils.lsp").common_on_attach(client, bufnr)
-          require("lsp-format").on_attach(client)
-        end,
       })
 
       local muon = {

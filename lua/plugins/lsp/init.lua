@@ -1,6 +1,7 @@
 return {
   {
     "neovim/nvim-lspconfig",
+    enabled = false,
     event = { "BufReadPost", "BufWritePost", "BufNewFile" },
     dependencies = {
       "mason.nvim",
@@ -153,11 +154,7 @@ return {
       rename = {
         in_select = false,
       },
-      definition = {
-        keys = {
-          edit = "o",
-        },
-      },
+      definition = {},
       symbol_in_winbar = {
         enable = true,
       },
@@ -176,6 +173,7 @@ return {
 
   {
     "williamboman/mason-lspconfig.nvim",
+    enabled = false,
     lazy = true,
     dependencies = { "mason.nvim" },
     opts = {
@@ -194,6 +192,7 @@ return {
 
   {
     "rachartier/tiny-inline-diagnostic.nvim",
+    enabled = true,
     event = "LspAttach",
     priority = 1000,
     opts = {
@@ -235,5 +234,21 @@ return {
   {
     "Issafalcon/lsp-overloads.nvim",
     lazy = true,
+    opts = {},
+    init = function()
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = vim.api.nvim_create_augroup("lsp-overloads", { clear = true }),
+        callback = function(args)
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          require("lsp-overloads").setup(client, {
+            ui = {
+              close_events = { "CursorMoved", "BufHidden", "InsertLeave", "WinNew" },
+            },
+            display_automatically = false,
+          })
+          vim.keymap.set({ "n", "i" }, "<A-s>", "<cmd>LspOverloadsSignature<CR>")
+        end,
+      })
+    end,
   },
 }
