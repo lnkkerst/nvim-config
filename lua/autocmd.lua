@@ -3,7 +3,7 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   group = vim.api.nvim_create_augroup("noundofile", { clear = true }),
   pattern = { "/tmp/*", "COMMIT_EDITMSG", "MERGE_MSG", "*.tmp", "*.bak" },
   callback = function()
-    vim.opt_local.noundofile = true
+    vim.opt_local.undofile = false
   end,
 })
 

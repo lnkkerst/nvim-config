@@ -3,8 +3,9 @@ return {
     "kevinhwang91/nvim-hlslens",
     enabled = true,
     event = { "CmdlineEnter" },
-    config = function()
-      require("hlslens").setup({})
+    opts = {},
+    config = function(_, opts)
+      require("hlslens").setup(opts)
       local kopts = { noremap = true, silent = true }
 
       vim.api.nvim_set_keymap(

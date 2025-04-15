@@ -1,21 +1,23 @@
 ---@type LazySpec
 return {
   {
-    "rainbowhxch/accelerated-jk.nvim",
+    "PHSix/faster.nvim",
     -- event = "VeryLazy",
     vscode = true,
     keys = {
       {
         "j",
-        "<Plug>(accelerated_jk_j)",
-        desc = "Accelerated j",
+        "<Plug>(faster_move_j)",
+        desc = "Faster move j",
         mode = { "n" },
+        silent = true,
       },
       {
         "k",
-        "<Plug>(accelerated_jk_k)",
-        desc = "Accelerated k",
+        "<Plug>(faster_move_k)",
+        desc = "Faster move k",
         mode = { "n" },
+        silent = true,
       },
     },
   },
@@ -50,12 +52,12 @@ return {
     "gbprod/yanky.nvim",
     opts = {},
     keys = {
-      { "p",       "<Plug>(YankyPutAfter)",      mode = { "n", "x" } },
-      { "P",       "<Plug>(YankyPutBefore)",     mode = { "n", "x" } },
-      { "gp",      "<Plug>(YankyGPutAfter)",     mode = { "n", "x" } },
-      { "gP",      "<Plug>(YankyGPutBefore)",    mode = { "n", "x" } },
-      { "y",       "<Plug>(YankyYank)",          mode = { "n", "x" } },
-      { "<M-S-n>", "<Plug>(YankyCycleForward)",  mode = { "n" } },
+      { "p", "<Plug>(YankyPutAfter)", mode = { "n", "x" } },
+      { "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" } },
+      { "gp", "<Plug>(YankyGPutAfter)", mode = { "n", "x" } },
+      { "gP", "<Plug>(YankyGPutBefore)", mode = { "n", "x" } },
+      { "y", "<Plug>(YankyYank)", mode = { "n", "x" } },
+      { "<M-S-n>", "<Plug>(YankyCycleForward)", mode = { "n" } },
       { "<M-S-p>", "<Plug>(YankyCycleBackward)", mode = { "n" } },
       {
         "[y",
