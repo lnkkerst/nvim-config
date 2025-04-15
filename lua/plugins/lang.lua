@@ -6,15 +6,6 @@ return {
     ft = { "rust" },
     config = function()
       local lsp_utils = require("utils.lsp")
-      vim.g.rustaceanvim = {
-        server = {
-          on_attach = function(client, bufnr)
-            lsp_utils.common_on_attach(client, bufnr)
-            require("lsp-format").on_attach(client, bufnr)
-          end,
-          capabilities = lsp_utils.common_capabilities,
-        },
-      }
     end,
   },
 
@@ -64,9 +55,10 @@ return {
   -- web
   {
     "pmizio/typescript-tools.nvim",
+    enabled = false,
     lazy = true,
     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-    ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+    ft = { "typescript", "typescriptreact", "javascript", "javascriptreact", "vue" },
   },
 
   -- lua
@@ -184,7 +176,7 @@ return {
   },
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    enabled = true,
+    enabled = false,
     ft = { "markdown" },
     dependencies = {
       "nvim-treesitter/nvim-treesitter",

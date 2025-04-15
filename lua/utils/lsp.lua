@@ -1,23 +1,32 @@
+local nvim_eleven = vim.fn.has("nvim-0.11") == 1
+local iswin = vim.uv.os_uname().version:match("Windows")
+
 local M = {}
 
-M.common_capabilities = (function()
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
-  return capabilities
-end)()
+function M.init() end
 
-function M.common_on_attach(client, bufnr)
-  if client.server_capabilities.signatureHelpProvider then
-    require("lsp-overloads").setup(client, {
-      ui = {
-        close_events = { "CursorMoved", "BufHidden", "InsertLeave", "WinNew" },
-      },
-      display_automatically = false,
-    })
-    vim.keymap.set({ "n", "i" }, "<A-s>", "<cmd>LspOverloadsSignature<CR>")
+function M.validate_bufnr(bufnr)
+  if nvim_eleven then
+    vim.validate("bufnr", bufnr, "number")
   end
+  return bufnr == 0 and vim.api.nvim_get_current_buf() or bufnr
 end
 
-function M.init() end
+function M.insert_package_json(config_files, field, fname)
+  local path = vim.fn.fnamemodify(fname, ":h")
+  local root_with_package = vim.fs.dirname(vim.fs.find("package.json", { path = path, upward = true })[1])
+
+  if root_with_package then
+    -- only add package.json if it contains field parameter
+    local path_sep = iswin and "\\" or "/"
+    for line in io.lines(root_with_package .. path_sep .. "package.json") do
+      if line:find(field) then
+        config_files[#config_files + 1] = "package.json"
+        break
+      end
+    end
+  end
+  return config_files
+end
 
 return M
