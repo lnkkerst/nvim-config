@@ -1,5 +1,4 @@
 {
-  "accelerated-jk": { "branch": "master", "commit": "156c5158b72059404f6b8aaf15b59f87dd0aaa88" },
   "aerial.nvim": { "branch": "master", "commit": "44684bf429dc40e97a6d00ffa09043ac3f692186" },
   "asyncrun.vim": { "branch": "master", "commit": "e17c49c67d1dd847cd1d7d6077a7168816f546cc" },
   "better-escape.nvim": { "branch": "master", "commit": "199dcc2643dec5d8dbdab4ec672cf405224dcb3b" },
@@ -14,6 +13,7 @@
   "copilot.lua": { "branch": "master", "commit": "891aee91eaca360b6d709ef3e8e684e764aa5513" },
   "crates.nvim": { "branch": "main", "commit": "85356807f3a0e9a3f7015586f3a010170d338686" },
   "diffview.nvim": { "branch": "main", "commit": "4516612fe98ff56ae0415a259ff6361a89419b0a" },
+  "faster.nvim": { "branch": "main", "commit": "6af77bc54ba182f08f3df56f3a5ee1c53bb279cb" },
   "ferris.nvim": { "branch": "main", "commit": "b9cd307a4bb3de6d87fc5da26f0f2775f4e2873a" },
   "fidget.nvim": { "branch": "main", "commit": "b61e8af9b8b68ee0ec7da5fb7a8c203aae854f2e" },
   "flash.nvim": { "branch": "main", "commit": "ec0bf2842189f65f60fd40bf3557cac1029cc932" },
