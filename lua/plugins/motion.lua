@@ -42,7 +42,7 @@ return {
             pattern = "^",
           })
         end,
-        { desc = "Flash line" },
+        desc = "Flash line",
       },
       {
         "r",

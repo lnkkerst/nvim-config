@@ -4,9 +4,6 @@ return {
     "mrcjkb/rustaceanvim",
     enabled = true,
     ft = { "rust" },
-    config = function()
-      local lsp_utils = require("utils.lsp")
-    end,
   },
 
   {
@@ -79,29 +76,18 @@ return {
   -- c/cpp
   {
     "p00f/clangd_extensions.nvim",
+    enabled = false,
     lazy = true,
     ft = "cpp",
   },
 
   -- python
   {
-    "linux-cultist/venv-selector.nvim",
-    enabled = false,
-    opts = {
-      name = { "venv", ".venv" },
-      parents = 0,
-    },
-    dependencies = {
-      "neovim/nvim-lspconfig",
-      "nvim-telescope/telescope.nvim",
-    },
-    cmd = { "VenvSelect" },
-  },
-  {
     "AckslD/swenv.nvim",
     ft = { "python" },
     init = function()
       vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("swenv_auto", { clear = true }),
         pattern = { "python" },
         callback = function()
           require("swenv.api").auto_venv()

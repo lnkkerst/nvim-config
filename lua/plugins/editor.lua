@@ -2,7 +2,6 @@
 return {
   {
     "PHSix/faster.nvim",
-    -- event = "VeryLazy",
     vscode = true,
     keys = {
       {
@@ -34,15 +33,7 @@ return {
       },
     },
   },
-  {
-    "altermo/ultimate-autopair.nvim",
-    enabled = false,
-    event = { "InsertEnter", "CmdlineEnter" },
-    branch = "v0.6", --recommended as each new version will have breaking changes
-    opts = {
-      --Config goes here
-    },
-  },
+
   {
     "RRethy/nvim-treesitter-endwise",
     ft = { "lua", "ruby", "vimscript" },
@@ -59,20 +50,11 @@ return {
       { "y", "<Plug>(YankyYank)", mode = { "n", "x" } },
       { "<M-S-n>", "<Plug>(YankyCycleForward)", mode = { "n" } },
       { "<M-S-p>", "<Plug>(YankyCycleBackward)", mode = { "n" } },
-      {
-        "[y",
-        "<Plug>(YankyCycleForward)",
-        desc = "Cycle Forward Through Yank History",
-      },
-      {
-        "]y",
-        "<Plug>(YankyCycleBackward)",
-        desc = "Cycle Backward Through Yank History",
-      },
     },
   },
 
   {
+
     "tzachar/highlight-undo.nvim",
     keys = { { "u" }, { "<C-r>" }, { "p" }, { "P" } },
     opts = {

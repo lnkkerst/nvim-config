@@ -140,6 +140,8 @@ return {
         desc = "Lspsaga outline",
       },
     },
+    ---@module 'lspsaga'
+    ---@type LspsagaConfig
     opts = {
       ui = {
         border = "single",
@@ -154,9 +156,8 @@ return {
       rename = {
         in_select = false,
       },
-      definition = {},
       symbol_in_winbar = {
-        enable = true,
+        enable = false,
       },
       lightbulb = {
         enable = false,

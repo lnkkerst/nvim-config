@@ -75,8 +75,12 @@ return {
     event = "VeryLazy",
     vscode = true,
     opts = {
+      preset = "modern",
       icons = {
         mappings = false,
+      },
+      win = {
+        border = "single",
       },
     },
     keys = {
@@ -88,6 +92,16 @@ return {
         desc = "Buffer Local Keymaps (which-key)",
       },
     },
+    config = function(_, opts)
+      local wk = require("which-key")
+      wk.setup(opts)
+      wk.add({
+        { "<leader>a", group = "CodoCompanion" },
+        { "<leader>d", group = "DAP" },
+        { "<leader>f", group = "Pickers" },
+        { "<leader>q", group = "Quickfix" },
+      })
+    end,
   },
 
   {

@@ -34,7 +34,7 @@ return {
   {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    enabled = true,
+    enabled = false,
     event = "VeryLazy",
     opts = function()
       ---@diagnostic disable: unused-local, unused-function
