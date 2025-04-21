@@ -1,38 +1,5 @@
 return {
   {
-    "nvim-neo-tree/neo-tree.nvim",
-    enabled = false,
-    branch = "v3.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-      "MunifTanjim/nui.nvim",
-      -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
-    },
-    keys = {
-      {
-        "<C-n>",
-        "<cmd>Neotree toggle<cr>",
-        desc = "Toggle neo-tree file explorer",
-      },
-    },
-    opts = {
-      popup_border_style = "single",
-      filesystem = {
-        follow_current_file = {
-          enabled = true,
-        },
-      },
-    },
-  },
-
-  {
-    "echasnovski/mini.files",
-    enabled = false,
-    opts = {},
-  },
-
-  {
     "stevearc/oil.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     lazy = false,
@@ -80,51 +47,12 @@ return {
   },
 
   {
-    "kyazdani42/nvim-tree.lua",
-    enabled = false,
-    cmd = "NvimTreeToggle",
-    dependencies = {
-      "kyazdani42/nvim-web-devicons",
-    },
-    keys = {
-      {
-        "<C-n>",
-        "<cmd>NvimTreeToggle<cr>",
-        desc = "NvimTreeToggle",
-      },
-    },
-    opts = {
-      auto_reload_on_write = true,
-      sync_root_with_cwd = true,
-      respect_buf_cwd = true,
-      update_focused_file = {
-        enable = true,
-        update_root = true,
-      },
-
-      renderer = {
-        icons = {
-          glyphs = {
-            git = {
-              unstaged = "",
-              staged = "",
-              unmerged = "",
-              renamed = "➜",
-              untracked = "",
-              deleted = "",
-              ignored = "◌",
-            },
-          },
-        },
-      },
-    },
-  },
-
-  {
     "mikavilpas/yazi.nvim",
-    enabled = false,
+    enabled = true,
     event = "VeryLazy",
     dependencies = { "folke/snacks.nvim", lazy = true },
-    opts = {},
+    opts = {
+      yazi_floating_window_border = "single",
+    },
   },
 }

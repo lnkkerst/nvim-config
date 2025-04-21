@@ -12,8 +12,6 @@ return {
 
         sync_install = false,
 
-        ignore_install = { "phpdoc" },
-
         auto_install = true,
 
         highlight = {
@@ -84,6 +82,7 @@ return {
 
   {
     "andymass/vim-matchup",
+    enabled = false,
     version = false,
     event = { "BufReadPost" },
     dependencies = { "nvim-treesitter/nvim-treesitter" },

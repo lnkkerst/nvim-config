@@ -196,6 +196,13 @@ return {
         desc = "Pick location list",
       },
       {
+        "<leader>fd",
+        function()
+          require("snacks").picker.diagnostics()
+        end,
+        desc = "Pick diagnostics",
+      },
+      {
         "<C-p>",
         function()
           require("snacks").picker.files()
@@ -203,6 +210,7 @@ return {
         desc = "Pick files",
       },
 
+      -- other
       {
         "<M-f>",
         function()
@@ -233,7 +241,12 @@ return {
     end, { desc = "Browse the repo of current file" })
 
     vim.api.nvim_create_user_command("Lazygit", function()
-      snacks.lazygit()
+      ---@diagnostic disable-next-line: missing-fields
+      snacks.lazygit({
+        env = {
+          SHELL = "/bin/bash",
+        },
+      })
     end, { desc = "Open lazygit" })
 
     -- Rename for nvim-tree
