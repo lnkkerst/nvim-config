@@ -188,7 +188,7 @@ local function make_lsp()
   local conditions = require("heirline.conditions")
   local LSPActive = {
     condition = conditions.lsp_attached,
-    update = { "LspAttach", "LspDetach" },
+    update = { "LspAttach", "LspDetach", "VimResized" },
 
     -- You can keep it simple,
     -- provider = " [LSP]",
@@ -199,7 +199,14 @@ local function make_lsp()
       for _, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
         table.insert(names, server.name)
       end
-      return " [" .. table.concat(names, " ") .. "]"
+
+      local text = " [" .. table.concat(names, " ") .. "]"
+
+      if not conditions.width_percent_below(#text, 0.39) then
+        return " [LSP]"
+      end
+
+      return text
     end,
   }
   return LSPActive
@@ -372,7 +379,7 @@ local function make_git()
       self.has_changes = self.status_dict.added ~= 0 or self.status_dict.removed ~= 0 or self.status_dict.changed ~= 0
     end,
 
-    hl = { fg = "orange" },
+    hl = { fg = "primary" },
 
     { -- git branch name
       provider = function(self)
@@ -561,8 +568,32 @@ local function make_bufferline()
     provider = function(self)
       -- self.filename will be defined later, just keep looking at the example!
       local filename = self.filename
-      filename = filename == "" and "[No Name]" or vim.fn.fnamemodify(filename, ":t")
-      return filename
+
+      if filename == "" then
+        return "[No Name]"
+      end
+
+      local tfilename = vim.fn.fnamemodify(filename, ":t")
+
+      local buffers = vim.api.nvim_list_bufs()
+
+      local count = 0
+      for _, bufnr in ipairs(buffers) do
+        if vim.api.nvim_buf_is_loaded(bufnr) and vim.api.nvim_buf_get_name(bufnr) ~= "" then
+          local fullpath = vim.api.nvim_buf_get_name(bufnr)
+          local cur_filename = vim.fn.fnamemodify(fullpath, ":t")
+          if cur_filename == tfilename then
+            count = count + 1
+          end
+        end
+      end
+
+      if count > 1 then
+        local parent = vim.fn.fnamemodify(filename, ":p:h:t")
+        return parent .. "/" .. tfilename
+      else
+        return tfilename
+      end
     end,
     hl = function(self)
       return { bold = self.is_active or self.is_visible, italic = true }
@@ -629,7 +660,7 @@ local function make_bufferline()
     TablineBufnr,
     make_file_icon(), -- turns out the version defined in #crash-course-part-ii-filename-and-friends can be reutilized as is here!
     TablineFileName,
-    TablineFileFlags,
+    linked_surround({ " ", "" }, nil, TablineFileFlags),
   }
 
   -- a nice "x" button to close the buffer
@@ -675,6 +706,7 @@ local function make_bufferline()
   return BufferLine
 end
 
+---@type LazySpec
 return {
   {
     "rebelot/heirline.nvim",
@@ -842,7 +874,7 @@ return {
 
       return {
         statusline = Statusline,
-        winbar = { BreadcrumbsOrFileName },
+        -- winbar = { BreadcrumbsOrFileName },
         tabline = { make_bufferline() },
         opts = {
           colors = colors,
@@ -855,9 +887,7 @@ return {
         },
       }
     end,
-
-    config = function(_, opts)
-      vim.api.nvim_set_hl(0, "StatusLine", {})
+    init = function()
       vim.opt.showtabline = 2
 
       vim.api.nvim_create_autocmd("FileType", {
@@ -873,6 +903,9 @@ return {
           vim.opt.showtabline = 2
         end,
       })
+    end,
+    config = function(_, opts)
+      vim.api.nvim_set_hl(0, "StatusLine", {})
 
       require("heirline").setup(opts)
     end,

@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   {
     "stevearc/oil.nvim",
@@ -49,7 +50,7 @@ return {
   {
     "mikavilpas/yazi.nvim",
     enabled = true,
-    event = "VeryLazy",
+    cmd = { "Yazi" },
     dependencies = { "folke/snacks.nvim", lazy = true },
     opts = {
       yazi_floating_window_border = "single",

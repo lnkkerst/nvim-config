@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   -- rust
   {
@@ -176,7 +177,7 @@ return {
   -- java
   {
     "nvim-java/nvim-java",
-    enabled = true,
+    enabled = false,
     ft = { "java" },
     opts = {},
   },

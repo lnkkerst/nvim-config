@@ -9,6 +9,10 @@ return {
       {
         "xzbdmw/colorful-menu.nvim",
         opts = {},
+        config = function(_, opts)
+          vim.api.nvim_set_hl(0, "BlinkCmpLabelMatch", { bold = true })
+          require("colorful-menu").setup(opts)
+        end,
       },
     },
     ---@module 'blink.cmp'
@@ -68,6 +72,7 @@ return {
         ["<Tab>"] = {
           function(cmp)
             local copilot = require("copilot.suggestion")
+            dd("triggered: " .. (copilot.is_visible() and "true" or "false"))
             if copilot.is_visible() and cmp.get_selected_item() == nil then
               copilot.accept()
               return true
@@ -154,6 +159,13 @@ return {
 
         ghost_text = {
           enabled = false,
+        },
+      },
+
+      signature = {
+        enabled = true,
+        window = {
+          border = "single",
         },
       },
 

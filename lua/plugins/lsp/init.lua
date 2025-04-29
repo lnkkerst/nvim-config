@@ -1,66 +1,5 @@
+---@type LazySpec
 return {
-  {
-    "neovim/nvim-lspconfig",
-    enabled = false,
-    event = { "BufReadPost", "BufWritePost", "BufNewFile" },
-    dependencies = {
-      "mason.nvim",
-      "mason-lspconfig.nvim",
-      -- { "onsails/lspkind.nvim", opts = {} },
-      {
-        "folke/neoconf.nvim",
-        version = false,
-        cmd = "Neoconf",
-        opts = {},
-      },
-    },
-    config = function()
-      -- Override default K map
-      vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<cr>")
-
-      local signs = {
-        Error = " ",
-        Warn = " ",
-        Info = " ",
-        Hint = " ",
-      }
-      for type, icon in pairs(signs) do
-        local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-      end
-
-      vim.diagnostic.config({
-        signs = {
-          text = {
-            [vim.diagnostic.severity.ERROR] = " ",
-            [vim.diagnostic.severity.WARN] = " ",
-            [vim.diagnostic.severity.INFO] = " ",
-            [vim.diagnostic.severity.HINT] = " ",
-          },
-        },
-        update_in_insert = false,
-        underline = false,
-        severity_sort = true,
-        -- virtual_text =  {
-        --   source = false,
-        -- },
-        virtual_text = false,
-        -- virtual_lines = true,
-      })
-
-      -- Disable semantic tokens
-      vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-        callback = function(ev)
-          local client = vim.lsp.get_client_by_id(ev.data.client_id)
-          client.server_capabilities.semanticTokensProvider = nil
-        end,
-      })
-
-      require("plugins.lsp.servers").init_all()
-    end,
-  },
-
   {
     "nvimdev/lspsaga.nvim",
     -- branch = "main",
@@ -140,29 +79,31 @@ return {
         desc = "Lspsaga outline",
       },
     },
-    ---@module 'lspsaga'
-    ---@type LspsagaConfig
-    opts = {
-      ui = {
-        border = "single",
-        code_action = "",
-        colors = require("catppuccin.groups.integrations.lsp_saga").custom_colors(),
-        kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
-      },
-      code_action = {
-        show_server_name = true,
-        extend_gitsigns = true,
-      },
-      rename = {
-        in_select = false,
-      },
-      symbol_in_winbar = {
-        enable = false,
-      },
-      lightbulb = {
-        enable = false,
-      },
-    },
+    opts = function()
+      ---@module 'lspsaga'
+      ---@type LspsagaConfig
+      return {
+        ui = {
+          border = "single",
+          code_action = "",
+          colors = require("catppuccin.groups.integrations.lsp_saga").custom_colors(),
+          kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
+        },
+        code_action = {
+          show_server_name = true,
+          extend_gitsigns = true,
+        },
+        rename = {
+          in_select = false,
+        },
+        symbol_in_winbar = {
+          enable = true,
+        },
+        lightbulb = {
+          enable = false,
+        },
+      }
+    end,
   },
 
   {
@@ -170,16 +111,6 @@ return {
     lazy = true,
     cmd = { "Mason" },
     opts = {},
-  },
-
-  {
-    "williamboman/mason-lspconfig.nvim",
-    enabled = false,
-    lazy = true,
-    dependencies = { "mason.nvim" },
-    opts = {
-      automatic_installation = false,
-    },
   },
 
   {

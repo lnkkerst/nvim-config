@@ -6,6 +6,7 @@ local header = [[
 ███████╗ ██║ ╚═╝ ██║ ██║  ██║ ╚██████╗ ███████║
 ╚══════╝ ╚═╝     ╚═╝ ╚═╝  ╚═╝  ╚═════╝ ╚══════╝]]
 
+---@type LazySpec
 return {
   "folke/snacks.nvim",
   priority = 1000,
