@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   {
     "akinsho/toggleterm.nvim",
@@ -230,7 +231,7 @@ return {
 
   {
     "stevearc/aerial.nvim",
-    enabled = false,
+    enabled = true,
     cmd = {
       "AerialToggle",
       "AerialGo",

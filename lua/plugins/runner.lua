@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   {
     "michaelb/sniprun",
@@ -53,5 +54,18 @@ return {
     init = function()
       vim.g.asyncrun_open = 6
     end,
+  },
+  {
+    "skywind3000/asynctasks.vim",
+    dependencies = { "skywind3000/asyncrun.vim" },
+    cmd = {
+      "AsyncTask",
+      "AsyncTaskEdit",
+      "AsyncTaskLast",
+      "AsyncTaskList",
+      "AsyncTaskMacro",
+      "AsyncTaskEnviron",
+      "AsyncTaskProfile",
+    },
   },
 }

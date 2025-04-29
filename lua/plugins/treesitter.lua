@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   {
     "nvim-treesitter/nvim-treesitter",
@@ -44,6 +45,7 @@ return {
 
   {
     "HiPhish/rainbow-delimiters.nvim",
+    submodules = false,
     event = { "BufReadPost" },
     dependencies = { { "nvim-treesitter/nvim-treesitter" } },
   },
@@ -82,7 +84,6 @@ return {
 
   {
     "andymass/vim-matchup",
-    enabled = false,
     version = false,
     event = { "BufReadPost" },
     dependencies = { "nvim-treesitter/nvim-treesitter" },

@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   {
     "catppuccin/nvim",
@@ -5,6 +6,8 @@ return {
     version = false,
     priority = 1000,
     opts = function()
+      ---@module 'catppuccin'
+      ---@type CatppuccinOptions
       return {
         flavour = "mocha",
         -- transparent_background = not vim.g.neovide,
