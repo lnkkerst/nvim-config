@@ -81,7 +81,9 @@ local servers = {
   ["cssls"] = {},
   ["cmake"] = {},
   ["dockerls"] = {},
-  ["jdtls"] = {},
+  ["jdtls"] = {
+    format = true,
+  },
   ["tailwindcss"] = {},
   ["ruff"] = {
     format = true,
@@ -93,6 +95,9 @@ local servers = {
     format = true,
   },
   ["null-ls"] = {
+    format = true,
+  },
+  ["kotlin_language_server"] = {
     format = true,
   },
 }

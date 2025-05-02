@@ -59,3 +59,14 @@ vim.keymap.set("v", "<M-k>", "<esc><cmd>'<,'>move'<-2<cr>gv=gv")
 -- Cmdline shortcuts
 vim.keymap.set("c", "<C-a>", "<Home>")
 vim.keymap.set("c", "<C-e>", "<End>")
+
+-- Fold by search results
+vim.keymap.set("n", "zpr", function()
+  vim.cmd([[
+    setlocal foldexpr=(getline(v:lnum)=~@/)?0:(getline(v:lnum-1)=~@/)|| (getline(v:lnum+1)=~@/)?1:2
+    setlocal foldmethod=expr
+    setlocal foldlevel=0
+    setlocal foldcolumn=2
+    set foldmethod=manual
+  ]])
+end, { noremap = true, desc = "Fold by search results" })
