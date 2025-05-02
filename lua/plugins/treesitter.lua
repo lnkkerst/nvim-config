@@ -318,4 +318,11 @@ return {
       },
     },
   },
+
+  {
+    "Wansmer/treesj",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    cmd = { "TSJToggle", "TSJJoin", "TSJSplit" },
+    opts = {},
+  },
 }

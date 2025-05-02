@@ -73,6 +73,7 @@ return {
           function(cmp)
             local copilot = require("copilot.suggestion")
             dd("triggered: " .. (copilot.is_visible() and "true" or "false"))
+            dd("selected: " .. (cmp.get_selected_item() == nil and "nil" or "not nil"))
             if copilot.is_visible() and cmp.get_selected_item() == nil then
               copilot.accept()
               return true
@@ -83,8 +84,6 @@ return {
               return cmp.select_and_accept()
             end
           end,
-          function() end,
-          -- "select_next",
           "snippet_forward",
           "fallback",
         },
@@ -174,6 +173,8 @@ return {
         keymap = {
           ["<C-j>"] = { "select_next" },
           ["<C-k>"] = { "select_prev" },
+          ["Tab"] = { "fallback" },
+          ["S-Tab"] = { "fallback" },
         },
         completion = {
           menu = {

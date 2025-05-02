@@ -176,9 +176,7 @@ return {
 
   -- java
   {
-    "nvim-java/nvim-java",
-    enabled = false,
-    ft = { "java" },
-    opts = {},
+    "mfussenegger/nvim-jdtls",
+    lazy = true,
   },
 }
