@@ -17,8 +17,23 @@ return {
   },
   {
     "stevearc/quicker.nvim",
-    enabled = false,
+    enabled = true,
     ft = "qf",
+    keys = {
+      {
+        "<leader>qq",
+        function()
+          require("quicker").toggle()
+        end,
+      },
+
+      {
+        "<leader>ll",
+        function()
+          require("quicker").toggle({ loclist = true })
+        end,
+      },
+    },
     ---@module "quicker"
     ---@type quicker.SetupOptions
     opts = {},

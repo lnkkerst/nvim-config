@@ -35,4 +35,8 @@ return {
       require("codecompanion").setup(opts)
     end,
   },
+  {
+    "GeorgesAlkhouri/nvim-aider",
+    cmd = "Aider",
+  },
 }

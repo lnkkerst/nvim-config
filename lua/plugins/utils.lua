@@ -122,31 +122,30 @@ return {
 
   {
     "aserowy/tmux.nvim",
-    -- event = "VeryLazy",
     keys = {
       {
-        "<M-up>",
+        "<C-up>",
         function()
           require("tmux").resize_top()
         end,
         mode = { "n", "t" },
       },
       {
-        "<M-down>",
+        "<C-down>",
         function()
           require("tmux").resize_bottom()
         end,
         mode = { "n", "t" },
       },
       {
-        "<M-left>",
+        "<C-left>",
         function()
           require("tmux").resize_left()
         end,
         mode = { "n", "t" },
       },
       {
-        "<M-right>",
+        "<C-right>",
         function()
           require("tmux").resize_right()
         end,
@@ -270,5 +269,18 @@ return {
       { "nvim-treesitter/nvim-treesitter" },
     },
     opts = {},
+  },
+
+  {
+    "echasnovski/mini.keymap",
+    version = false,
+    opts = {},
+  },
+
+  {
+    "willothy/flatten.nvim",
+    opts = {},
+    lazy = false,
+    priority = 1001,
   },
 }

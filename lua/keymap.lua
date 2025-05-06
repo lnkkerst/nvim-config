@@ -1,3 +1,5 @@
+local mk = require("mini.keymap")
+
 -- Save file
 --[[ Not good maybe
 vim.keymap.set(
@@ -19,12 +21,6 @@ vim.keymap.set({ "n", "v" }, "X", '"_X', { desc = "Delete prev char without yank
 
 -- Visual paste without yank
 vim.keymap.set({ "v" }, "p", '"_dP', { desc = "Visual paste without yank" })
-
--- Clear highlight
-vim.keymap.set({ "n" }, "<leader>l", "<cmd>noh<cr><esc>", { desc = "noh" })
-
--- Clear search with <esc>
-vim.keymap.set({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and Clear hlsearch" })
 
 -- Quickfix
 vim.keymap.set("n", "<leader>qo", ":copen<cr>", { desc = "Open quickfix" })
@@ -70,3 +66,59 @@ vim.keymap.set("n", "zpr", function()
     set foldmethod=manual
   ]])
 end, { noremap = true, desc = "Fold by search results" })
+
+-- Escape
+mk.map_combo({ "i", "c", "x", "s", "t" }, "jk", "<BS><BS><Esc>")
+-- mk.map_combo({ "i", "c", "x", "s", "t" }, "jj", "<BS><BS><Esc>")
+
+-- Tab
+mk.map_multistep({ "i" }, "<Tab>", {
+  "blink_accept",
+  {
+    condition = function()
+      local copilot = require("copilot.suggestion")
+      return copilot.is_visible()
+    end,
+    action = function()
+      local copilot = require("copilot.suggestion")
+      copilot.accept()
+    end,
+  },
+  "vimsnippet_next",
+  "increase_indent",
+  "jump_after_close",
+  "jump_after_tsnode",
+}, {})
+
+mk.map_multistep({ "i" }, "<S-Tab>", {
+  "vimsnippet_prev",
+  "decrease_indent",
+  "jump_before_open",
+  "jump_before_tsnode",
+})
+
+-- CR & BS
+mk.map_multistep({ "i" }, "<CR>", {
+  "blink_accept",
+  "nvimautopairs_cr",
+})
+
+mk.map_multistep({ "i" }, "<BS>", { "nvimautopairs_bs" })
+
+-- No hlsearch
+mk.map_combo({ "n", "i", "x", "c" }, "<Esc><Esc>", function()
+  vim.cmd("nohlsearch")
+end)
+
+-- Cancel completion
+vim.keymap.set({ "i", "c" }, "<C-e>", function()
+  local copilot = require("copilot.suggestion")
+  if copilot.is_visible() then
+    copilot.dismiss()
+  end
+
+  local cmp = require("cmp")
+  if cmp.visible() then
+    cmp.close()
+  end
+end, { desc = "Cancel completion" })

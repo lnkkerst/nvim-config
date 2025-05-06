@@ -6,14 +6,14 @@ return {
     keys = {
       {
         "j",
-        "<Plug>(faster_move_j)",
+        "<Plug>(faster_move_gj)",
         desc = "Faster move j",
         mode = { "n" },
         silent = true,
       },
       {
         "k",
-        "<Plug>(faster_move_k)",
+        "<Plug>(faster_move_gk)",
         desc = "Faster move k",
         mode = { "n" },
         silent = true,
@@ -31,6 +31,8 @@ return {
         lua = { "string" },
         javascript = { "template_string" },
       },
+      map_cr = false,
+      map_bs = false,
     },
   },
 
@@ -74,23 +76,6 @@ return {
     event = { "CmdlineEnter" },
     vscode = true,
     opts = {},
-  },
-
-  {
-    "max397574/better-escape.nvim",
-    event = "InsertEnter",
-    vscode = true,
-    opts = {
-      default_mappings = false,
-      mappings = {
-        i = {
-          j = {
-            k = "<Esc>",
-            j = "<Esc>",
-          },
-        },
-      },
-    },
   },
 
   {
