@@ -76,13 +76,6 @@ return {
   },
 
   {
-    "abecodes/tabout.nvim",
-    event = { "BufReadPost" },
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
-    opts = {},
-  },
-
-  {
     "andymass/vim-matchup",
     version = false,
     event = { "BufReadPost" },

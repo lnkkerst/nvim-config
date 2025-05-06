@@ -1,7 +1,3 @@
-if vim.fn.executable("nvr") == 1 then
-  vim.env["GIT_EDITOR"] = [[nvr -cc "vsplit" -c "set bufhidden=delete" --remote-wait]]
-end
-
 -- selene: allow(unused_variable)
 local function disable_builtin_plugins()
   vim.g.loaded_gzip = 1
@@ -32,8 +28,6 @@ vim.g.maplocalleader = "\\"
 require("options")
 require("neovide")
 require("filetypes")
-require("keymap")
-require("lsp")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -104,5 +98,7 @@ require("lazy").setup({
   },
 })
 
+require("keymap")
+require("lsp")
 require("autocmd")
 require("commands")

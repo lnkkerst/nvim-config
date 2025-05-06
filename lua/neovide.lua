@@ -9,7 +9,7 @@ if vim.g.neovide then
   vim.g.neovide_cursor_vfx_particle_lifetime = 1.2
   vim.g.neovide_cursor_vfx_particle_speed = 20.0
   vim.g.neovide_cursor_vfx_particle_density = 5.0
-  vim.g.neovide_transparency = 0.9
+  vim.g.neovide_opacity = 0.9
   vim.g.neovide_no_idle = true
 
   vim.g.terminal_color_0 = "#45475A"

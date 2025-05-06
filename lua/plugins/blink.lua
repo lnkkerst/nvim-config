@@ -38,58 +38,9 @@ return {
       },
 
       keymap = {
-        -- ["<C-space>"] = {
-        --   "show",
-        --   "show_documentation",
-        --   "hide_documentation",
-        --   "fallback",
-        -- },
-        --
-        -- ["<C-e>"] = { "hide", "fallback" },
-        -- ["<C-y>"] = { "select_and_accept", "fallback" },
-        --
-        -- ["<C-j>"] = { "select_next", "fallback" },
-        -- ["<C-k>"] = { "select_prev", "fallback" },
-        --
-        -- ["<C-u>"] = { "scroll_documentation_up", "fallback" },
-        -- ["<C-d>"] = { "scroll_documentation_down", "fallback" },
-        --
-        -- ["<Tab>"] = {
-        --   function(cmp)
-        --     if cmp.snippet_active() then
-        --       return cmp.accept()
-        --     else
-        --       return cmp.select_and_accept()
-        --     end
-        --   end,
-        --   "snippet_forward",
-        --   "fallback",
-        -- },
-        -- ["<S-Tab>"] = { "snippet_backward", "fallback" },
-
-        preset = "super-tab",
-        -- ["<Cr>"] = { "accept", "fallback" },
-        ["<Tab>"] = {
-          function(cmp)
-            local copilot = require("copilot.suggestion")
-            dd("triggered: " .. (copilot.is_visible() and "true" or "false"))
-            dd("selected: " .. (cmp.get_selected_item() == nil and "nil" or "not nil"))
-            if copilot.is_visible() and cmp.get_selected_item() == nil then
-              copilot.accept()
-              return true
-            end
-            if cmp.snippet_active() then
-              return cmp.accept()
-            else
-              return cmp.select_and_accept()
-            end
-          end,
-          "snippet_forward",
-          "fallback",
-        },
-        ["<CR>"] = { "accept", "fallback" },
+        preset = "none",
+        ["<C-space>"] = { "show", "fallback" },
         ["<C-y>"] = { "accept", "fallback" },
-        -- ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
         ["<C-j>"] = { "select_next", "fallback" },
         ["<C-k>"] = { "select_prev", "fallback" },
         ["<C-u>"] = { "scroll_documentation_up", "fallback" },

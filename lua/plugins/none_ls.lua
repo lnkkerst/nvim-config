@@ -13,13 +13,6 @@ return {
   },
 
   {
-    "lukas-reineke/lsp-format.nvim",
-    enabled = false,
-    lazy = true,
-    opts = {},
-  },
-
-  {
     "nvimtools/none-ls.nvim",
     dependencies = { "nvim-lua/plenary.nvim", "mason.nvim" },
     event = { "BufReadPre", "BufNewFile" },
