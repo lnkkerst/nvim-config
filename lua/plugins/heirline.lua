@@ -56,6 +56,22 @@ local function make_vi_mode()
   return ViMode
 end
 
+local function make_hydra_mode()
+  local HydraMode = {
+    condition = function()
+      return vim.g.hydra_active
+    end,
+    provider = function()
+      return vim.g.hydra_name
+    end,
+    update = {
+      "User",
+      pattern = { "HydraEnter", "HydraExit" },
+    },
+  }
+  return HydraMode
+end
+
 local function make_ruler()
   local Ruler = {
     -- %l = current line number
@@ -711,6 +727,7 @@ return {
   {
     "rebelot/heirline.nvim",
     enabled = true,
+    version = false,
     event = { "VeryLazy" },
     keys = {
       { "<M-p>", "<cmd>bp<cr>", desc = "Previous buffer" },
@@ -738,6 +755,7 @@ return {
       local Space = make_space(1)
 
       local ViMode = make_vi_mode()
+      local HydraMode = make_hydra_mode()
       local Ruler = make_ruler()
       local ScrollBar = make_scrollbar()
       local FileFlags = make_file_flags()
@@ -762,6 +780,11 @@ return {
         },
       }
 
+      local Mode = {
+        ViMode,
+        linked_surround({ "(", ")" }, nil, HydraMode),
+      }
+
       ---@param component table
       local function invert_surround(component)
         return utils.surround({ "", "" }, function(self)
@@ -771,7 +794,7 @@ return {
 
       local DefaultStatusline = {
         Space,
-        invert_surround(ViMode),
+        invert_surround(Mode),
         linked_surround({ "  ", " " }, nil, Git),
         linked_surround({ " ", " " }, nil, Diagnostics),
         linked_surround({ " ", " " }, nil, LspActive),

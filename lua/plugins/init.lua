@@ -1,2 +1,8 @@
 ---@type LazySpec
-return {}
+return {
+  {
+    "nvim-lua/plenary.nvim",
+    version = false,
+    lazy = true,
+  },
+}
