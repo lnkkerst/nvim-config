@@ -12,7 +12,6 @@ return {
 
   {
     "olimorris/codecompanion.nvim",
-    version = false,
     cmd = {
       "CodeCompanion",
       "CodeCompanionChat",
@@ -35,8 +34,10 @@ return {
       require("codecompanion").setup(opts)
     end,
   },
+
   {
     "GeorgesAlkhouri/nvim-aider",
     cmd = "Aider",
+    opts = {},
   },
 }

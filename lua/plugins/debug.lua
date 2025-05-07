@@ -1,21 +1,6 @@
 ---@type LazySpec
 return {
   {
-    "rcarriga/nvim-dap-ui",
-    dependencies = { "nvim-neotest/nvim-nio", "mfussenegger/nvim-dap" },
-    keys = {
-      {
-        "<leader>du",
-        function()
-          require("dapui").toggle()
-        end,
-        desc = "Toggle dap ui",
-      },
-    },
-    opts = {},
-  },
-
-  {
     "mfussenegger/nvim-dap",
     cmd = {
       "DapSetLogLevel",
@@ -57,19 +42,31 @@ return {
         "theHamsta/nvim-dap-virtual-text",
         opts = {},
       },
+      {
+        "igorlfs/nvim-dap-view",
+        opts = {},
+        config = function(_, opts)
+          local dap, dv = require("dap"), require("dap-view")
+
+          dv.setup(opts)
+
+          dap.listeners.before.attach["dap-view-config"] = function()
+            dv.open()
+          end
+          dap.listeners.before.launch["dap-view-config"] = function()
+            dv.open()
+          end
+          dap.listeners.before.event_terminated["dap-view-config"] = function()
+            dv.close()
+          end
+          dap.listeners.before.event_exited["dap-view-config"] = function()
+            dv.close()
+          end
+        end,
+      },
     },
     config = function()
       local dap = require("dap")
-
-      dap.listeners.after.event_initialized["dapui"] = function()
-        require("dapui").open()
-      end
-      dap.listeners.after.event_terminated["dapui"] = function()
-        require("dapui").close()
-      end
-      dap.listeners.after.event_exited["dapui"] = function()
-        require("dapui").close()
-      end
 
       local sign = vim.fn.sign_define
 

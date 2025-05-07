@@ -56,4 +56,10 @@ return {
       yazi_floating_window_border = "single",
     },
   },
+
+  {
+    "echasnovski/mini.files",
+    lazy = true,
+    opts = {},
+  },
 }
