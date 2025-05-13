@@ -40,6 +40,8 @@ return {
 
             SniprunVirtualTextOk = { link = "@text.note" },
             SniprunVirtualTextError = { link = "@error" },
+
+            QuickFixLineNr = { fg = colors.subtext0 },
           }
         end,
         integrations = {

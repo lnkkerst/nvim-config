@@ -19,35 +19,39 @@ return {
     config = function()
       local none_ls = require("null-ls")
       local conditions = require("utils.conditions")
+      local builtins = require("null-ls.builtins")
 
       none_ls.setup({
         sources = {
-          none_ls.builtins.formatting.stylua,
-          none_ls.builtins.formatting.shfmt,
-          none_ls.builtins.formatting.prettierd.with({
+          builtins.formatting.stylua,
+          builtins.formatting.shfmt,
+          builtins.formatting.prettierd.with({
             condition = function()
               return conditions.use_prettier()
             end,
           }),
-          -- null_ls.builtins.formatting.prettier,
-          none_ls.builtins.formatting.fish_indent,
-          none_ls.builtins.formatting.nginx_beautifier,
-          -- none_ls.builtins.formatting.gofmt,
-          -- none_ls.builtins.formatting.goimports,
-          -- none_ls.builtins.formatting.gofumpt,
-          none_ls.builtins.formatting.cmake_format,
-          none_ls.builtins.formatting.dart_format,
-          none_ls.builtins.formatting.csharpier,
-          -- none_ls.builtins.formatting.google_java_format,
-          -- none_ls.builtins.formatting.ktlint,
-          none_ls.builtins.formatting.clang_format,
-          -- null_ls.builtins.formatting.asmfmt,
-          none_ls.builtins.formatting.rustywind,
+          builtins.formatting.fish_indent,
+          builtins.formatting.nginx_beautifier,
+          -- builtins.formatting.gofmt,
+          -- builtins.formatting.goimports,
+          -- builtins.formatting.gofumpt,
+          builtins.formatting.cmake_format,
+          builtins.formatting.dart_format,
+          builtins.formatting.csharpier,
+          -- builtins.formatting.google_java_format,
+          -- builtins.formatting.ktlint,
+          builtins.formatting.clang_format,
+          -- builtins.formatting.asmfmt,
+          builtins.formatting.rustywind,
 
-          none_ls.builtins.diagnostics.fish,
-          none_ls.builtins.diagnostics.checkmake,
-          none_ls.builtins.diagnostics.commitlint,
-          none_ls.builtins.diagnostics.selene,
+          builtins.diagnostics.fish,
+          builtins.diagnostics.checkmake,
+          builtins.diagnostics.commitlint.with({
+            condition = function()
+              return conditions.use_commitlint()
+            end,
+          }),
+          builtins.diagnostics.selene,
         },
       })
 
