@@ -283,4 +283,16 @@ return {
     lazy = false,
     priority = 1001,
   },
+
+  {
+    "mistricky/codesnap.nvim",
+    build = "make",
+    cmd = { "CodeSnap", "CodeSnapSave", "CodeSnapHighlight", "CodeSnapSaveHighlight", "CodeSnapASCII" },
+    opts = {
+      has_line_number = true,
+      save_path = "~/Pictures/codesnap.nvim",
+      watermark = "",
+      code_font_family = "JetBrainsMono Nerd Font",
+    },
+  },
 }

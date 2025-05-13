@@ -53,53 +53,39 @@ vim.lsp.config("*", {
   capabilities = vim.lsp.protocol.make_client_capabilities(),
 })
 
+---@class ServerConfig
+---@field enabled boolean?
+---@field format boolean?
+
 -- Servers
+---@type table<string, ServerConfig>
 local servers = {
-  ["lua_ls"] = {
-    format = false,
-  },
+  ["lua_ls"] = { format = false },
   ["clangd"] = {},
-  ["dprint"] = {
-    format = true,
-  },
-  ["gopls"] = {
-    format = true,
-  },
+  ["dprint"] = { format = true },
+  ["gopls"] = { format = true },
   ["jsonls"] = {},
   ["oxlint"] = {},
-  ["pyright"] = {},
-  ["systemd_ls"] = {
-    format = true,
-  },
+  ["pyright"] = { enabled = false },
+  ["basedpyright"] = { enabled = false },
+  ["delance"] = {},
+  ["systemd_ls"] = { format = true },
   ["ts_ls"] = {},
   ["volar"] = {},
   ["yamlls"] = {},
-  ["eslint"] = {
-    format = true,
-  },
+  ["eslint"] = { format = true },
   ["html"] = {},
   ["cssls"] = {},
   ["cmake"] = {},
   ["dockerls"] = {},
-  ["jdtls"] = {
-    format = true,
-  },
+  ["jdtls"] = { format = true },
   ["tailwindcss"] = {},
-  ["ruff"] = {
-    format = true,
-  },
-  ["taplo"] = {
-    format = true,
-  },
-  ["prismals"] = {
-    format = true,
-  },
-  ["null-ls"] = {
-    format = true,
-  },
-  ["kotlin_language_server"] = {
-    format = true,
-  },
+  ["ruff"] = { format = true },
+  ["taplo"] = { format = true },
+  ["prismals"] = { format = true },
+  ["null-ls"] = { format = true },
+  ["kotlin_language_server"] = { format = true },
+  ["ty"] = { enabled = false },
 }
 
 local enabled_servers = vim.tbl_filter(function(server)
