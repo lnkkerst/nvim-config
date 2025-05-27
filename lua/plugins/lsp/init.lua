@@ -107,13 +107,6 @@ return {
   },
 
   {
-    "williamboman/mason.nvim",
-    lazy = true,
-    cmd = { "Mason" },
-    opts = {},
-  },
-
-  {
     "j-hui/fidget.nvim",
     enabled = true,
     event = { "LspAttach" },
@@ -158,27 +151,6 @@ return {
       vim.api.nvim_create_autocmd("InsertLeave", {
         callback = function()
           vim.lsp.inlay_hint.enable(true)
-        end,
-      })
-    end,
-  },
-
-  {
-    "Issafalcon/lsp-overloads.nvim",
-    lazy = true,
-    opts = {},
-    init = function()
-      vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup("lsp-overloads", { clear = true }),
-        callback = function(args)
-          local client = vim.lsp.get_client_by_id(args.data.client_id)
-          require("lsp-overloads").setup(client, {
-            ui = {
-              close_events = { "CursorMoved", "BufHidden", "InsertLeave", "WinNew" },
-            },
-            display_automatically = false,
-          })
-          vim.keymap.set({ "n", "i" }, "<A-s>", "<cmd>LspOverloadsSignature<CR>")
         end,
       })
     end,

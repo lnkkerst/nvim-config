@@ -3,18 +3,20 @@ return {
   -- rust
   {
     "mrcjkb/rustaceanvim",
-    enabled = true,
+    enabled = false,
     ft = { "rust" },
   },
 
   {
     "vxpm/ferris.nvim",
-    enabled = false,
+    ft = { "rust" },
+    enabled = true,
     opts = { create_commands = true },
   },
 
   {
     "Saecki/crates.nvim",
+    enabled = false,
     event = "BufRead Cargo.toml",
     config = function()
       local crates = require("crates")
@@ -139,6 +141,7 @@ return {
 
     -- (optional) will update plugin's deps on every update
     build = function()
+      require("gopher")
       vim.cmd.GoInstallDeps()
     end,
     ---@type gopher.Config
