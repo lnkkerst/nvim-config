@@ -1,4 +1,5 @@
-local mk = require("mini.keymap")
+local map_combo = require("mini.keymap").map_combo
+local map_multistep = require("mini.keymap").map_multistep
 
 ---@param mode string|string[] Mode "short-name" (see |nvim_set_keymap()|), or a list thereof.
 ---@param lhs string           Left-hand side |{lhs}| of the mapping.
@@ -43,7 +44,7 @@ local function hydra(mode, lhs, keys, opts)
   end, opts.map_opts or {})
 end
 -- Exit hydra mode
-mk.map_combo(vim.split("nixsotc", ""), "<Esc>", function()
+map_combo(vim.split("nixsotc", ""), "<Esc>", function()
   if vim.g.hydra_active then
     vim.g.hydra_active = false
     vim.api.nvim_exec_autocmds("User", {
@@ -130,11 +131,14 @@ map("n", "zpr", function()
 end, { noremap = true, desc = "Fold by search results" })
 
 -- Escape
-mk.map_combo({ "i", "c", "x", "s", "t" }, "jk", "<BS><BS><Esc>")
--- mk.map_combo({ "i", "c", "x", "s", "t" }, "jj", "<BS><BS><Esc>")
+map_combo({ "i", "c", "x", "s" }, "jk", "<BS><BS><Esc>")
+map_combo({ "t" }, "jk", function()
+  local keys = vim.api.nvim_replace_termcodes("<BS><BS><C-\\><C-n>", true, false, true)
+  vim.api.nvim_feedkeys(keys, "in", true)
+end)
 
 -- Tab
-mk.map_multistep({ "i" }, "<Tab>", {
+map_multistep({ "i" }, "<Tab>", {
   "blink_accept",
   {
     condition = function()
@@ -152,7 +156,7 @@ mk.map_multistep({ "i" }, "<Tab>", {
   "jump_after_tsnode",
 }, {})
 
-mk.map_multistep({ "i" }, "<S-Tab>", {
+map_multistep({ "i" }, "<S-Tab>", {
   "vimsnippet_prev",
   "decrease_indent",
   "jump_before_open",
@@ -160,15 +164,15 @@ mk.map_multistep({ "i" }, "<S-Tab>", {
 })
 
 -- CR & BS
-mk.map_multistep({ "i" }, "<CR>", {
+map_multistep({ "i" }, "<CR>", {
   "blink_accept",
   "nvimautopairs_cr",
 })
 
-mk.map_multistep({ "i" }, "<BS>", { "nvimautopairs_bs" })
+map_multistep({ "i" }, "<BS>", { "nvimautopairs_bs" })
 
 -- No hlsearch
-mk.map_combo({ "n", "i", "x", "c" }, "<Esc><Esc>", function()
+map_combo({ "n", "i", "x", "c" }, "<Esc><Esc>", function()
   vim.cmd("nohlsearch")
 end)
 
@@ -188,3 +192,13 @@ end, { desc = "Cancel completion" })
 hydra({ "n" }, "<C-w><space>", "<C-w>", {
   name = "Win",
 })
+
+map({ "n" }, "<C-h>", "<C-w>h", { desc = "Move to left window" })
+map({ "n" }, "<C-j>", "<C-w>j", { desc = "Move to bottom window" })
+map({ "n" }, "<C-k>", "<C-w>k", { desc = "Move to top window" })
+map({ "n" }, "<C-l>", "<C-w>l", { desc = "Move to right window" })
+
+map({ "t" }, "<C-h>", "<C-\\><C-N><C-w>h", { desc = "Move to left window" })
+map({ "t" }, "<C-j>", "<C-\\><C-N><C-w>j", { desc = "Move to bottom window" })
+map({ "t" }, "<C-k>", "<C-\\><C-N><C-w>k", { desc = "Move to top window" })
+map({ "t" }, "<C-l>", "<C-\\><C-N><C-w>l", { desc = "Move to right window" })

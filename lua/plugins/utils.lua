@@ -122,6 +122,7 @@ return {
 
   {
     "aserowy/tmux.nvim",
+    enabled = false,
     keys = {
       {
         "<C-up>",
