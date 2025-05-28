@@ -9,7 +9,7 @@ return {
       ---@module 'mason-lspconfig'
       ---@type MasonLspconfigSettings
       return {
-        ensure_installed = lsp.server_lists.servers_with_mason,
+        ensure_installed = vim.g.mason_auto_install and lsp.server_lists.servers_with_mason or {},
         automatic_enable = false,
       }
     end,
@@ -27,7 +27,7 @@ return {
       "nvimtools/none-ls.nvim",
     },
     opts = {
-      automatic_installation = true,
+      automatic_installation = vim.g.mason_auto_install,
     },
   },
 
@@ -39,7 +39,7 @@ return {
       "mfussenegger/nvim-dap",
     },
     opts = {
-      automatic_installation = true,
+      automatic_installation = vim.g.mason_auto_install,
     },
   },
 
