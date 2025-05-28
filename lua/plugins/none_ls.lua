@@ -36,7 +36,7 @@ return {
           builtins.formatting.dart_format,
           builtins.formatting.csharpier,
           builtins.formatting.clang_format,
-          builtins.formatting.rustywind,
+          -- builtins.formatting.rustywind,
 
           builtins.diagnostics.fish,
           builtins.diagnostics.checkmake,
