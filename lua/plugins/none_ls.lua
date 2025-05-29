@@ -55,7 +55,7 @@ return {
         filetypes = { "meson" },
         generator = require("null-ls.helpers").formatter_factory({
           command = "muon",
-          args = { "fmt", "$FILENAME" },
+          args = { "fmt", "-" },
         }),
       }
       none_ls.register(muon)
@@ -66,7 +66,8 @@ return {
         filetypes = { "Caddyfile" },
         generator = require("null-ls.helpers").formatter_factory({
           command = "caddy",
-          args = { "fmt", "$FILENAME" },
+          to_stdin = true,
+          args = { "fmt", "-" },
         }),
       }
       none_ls.register(caddy)
