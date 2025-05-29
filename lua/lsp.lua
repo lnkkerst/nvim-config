@@ -22,82 +22,9 @@ M.servers = {
   ["delance"] = { mason_install = false },
   ["pyrefly"] = { enabled = false, mason_install = false },
   ["systemd_ls"] = { format = true },
-  ["ts_ls"] = {
-    mason_install = false,
-    override = function()
-      local inlayHints = {
-        includeInlayParameterNameHints = "all",
-        includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-        includeInlayFunctionParameterTypeHints = true,
-        includeInlayVariableTypeHints = true,
-        includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-        includeInlayPropertyDeclarationTypeHints = true,
-        includeInlayFunctionLikeReturnTypeHints = true,
-        includeInlayEnumMemberValueHints = true,
-      }
-
-      local language_common_settings = {
-        inlayHints = inlayHints,
-        implementationsCodeLens = {
-          enabled = true,
-        },
-        referencesCodeLens = {
-          enabled = true,
-        },
-        implicitProjectConfiguration = {
-          checkJs = true,
-        },
-      }
-
-      ---@type vim.lsp.Config
-      return {
-        filetypes = {
-          "javascript",
-          "javascriptreact",
-          "javascript.jsx",
-          "typescript",
-          "typescriptreact",
-          "typescript.tsx",
-          "vue",
-        },
-        root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git", "pnpm-workspace.yaml" },
-        init_options = {
-          hostInfo = "neovim",
-          plugins = {
-            {
-              name = "@vue/typescript-plugin",
-              location = "/usr/lib/node_modules/@vue/typescript-plugin",
-              languages = {
-                "javascript",
-                "typescript",
-                "vue",
-                "javascriptreact",
-                "typescriptreact",
-              },
-            },
-          },
-          tsserver = {
-            path = "/usr/lib/node_modules/typescript/lib/tsserver.js",
-          },
-        },
-        settings = {
-          typescript = language_common_settings,
-          javascript = language_common_settings,
-        },
-      }
-    end,
-  },
-  ["vue_ls"] = {
-    mason_install = false,
-    override = {
-      init_options = {
-        typescript = {
-          tsdk = "/usr/lib/node_modules/typescript/lib",
-        },
-      },
-    },
-  },
-  ["yamlls"] = {},
+  ["ts_ls"] = { mason_install = false },
+  ["vue_ls"] = { mason_install = false },
+  ["yamlls"] = { format = true },
   ["eslint"] = { format = true },
   ["html"] = {},
   ["cssls"] = {},
