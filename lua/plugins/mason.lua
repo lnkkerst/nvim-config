@@ -4,6 +4,7 @@ return {
     "mason-org/mason-lspconfig.nvim",
     version = false,
     event = { "LazyFile" },
+    cmd = { "Mason" },
     opts = function()
       local lsp = require("lsp")
       ---@module 'mason-lspconfig'

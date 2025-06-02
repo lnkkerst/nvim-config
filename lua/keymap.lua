@@ -175,6 +175,7 @@ map_multistep({ "i" }, "<BS>", { "nvimautopairs_bs" })
 map_combo({ "n", "i", "x", "c" }, "<Esc><Esc>", function()
   vim.cmd("nohlsearch")
 end)
+map({ "n" }, "<leader>l", "<cmd>nohl<cr>")
 
 -- Cancel completion
 map({ "i", "c" }, "<C-e>", function()

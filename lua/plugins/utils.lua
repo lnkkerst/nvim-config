@@ -249,7 +249,7 @@ return {
     keys = {
       {
         "<A-a>",
-        "<cmd>AerialToggle<cr>",
+        "<cmd>AerialToggle right<cr>",
         desc = "Toggle Aerial",
       },
     },
