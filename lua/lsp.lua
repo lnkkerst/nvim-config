@@ -12,7 +12,7 @@ local lsp_setup = false
 ---@type table<string, ServerConfig>
 M.servers = {
   ["lua_ls"] = { format = false },
-  ["clangd"] = {},
+  ["clangd"] = { format = false },
   ["dprint"] = { enabled = false, format = true },
   ["gopls"] = { format = true },
   ["jsonls"] = {},
@@ -55,7 +55,7 @@ M.server_lists = {
 
   -- Auto install with mason.nvim
   servers_with_mason = vim.tbl_filter(function(server)
-    return M.servers[server].mason_install ~= false
+    return M.servers[server].mason_install ~= false and M.servers[server].enabled ~= false
   end, vim.tbl_keys(M.servers)),
 
   -- LSP format on save
