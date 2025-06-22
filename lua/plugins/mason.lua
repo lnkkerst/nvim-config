@@ -4,7 +4,6 @@ return {
     "mason-org/mason-lspconfig.nvim",
     version = false,
     event = { "LazyFile" },
-    cmd = { "Mason" },
     opts = function()
       local lsp = require("lsp")
       ---@module 'mason-lspconfig'
@@ -15,10 +14,12 @@ return {
       }
     end,
     dependencies = {
-      { "mason-org/mason.nvim", version = false, opts = {} },
+      { "mason-org/mason.nvim" },
       { "neovim/nvim-lspconfig", version = false },
     },
   },
+
+  { "mason-org/mason.nvim", version = false, opts = {} },
 
   {
     "jay-babu/mason-null-ls.nvim",
