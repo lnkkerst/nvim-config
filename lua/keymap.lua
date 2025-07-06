@@ -142,12 +142,12 @@ map_multistep({ "i" }, "<Tab>", {
   "blink_accept",
   {
     condition = function()
-      local copilot = require("copilot.suggestion")
-      return copilot.is_visible()
+      local ok, minuet = pcall(require, "minuet.virtualtext")
+      return ok and minuet.action.is_visible()
     end,
     action = function()
-      local copilot = require("copilot.suggestion")
-      copilot.accept()
+      local action = require("minuet.virtualtext").action
+      return action.accept()
     end,
   },
   "vimsnippet_next",
@@ -179,9 +179,9 @@ map({ "n" }, "<leader>l", "<cmd>nohl<cr>")
 
 -- Cancel completion
 map({ "i", "c" }, "<C-e>", function()
-  local copilot = require("copilot.suggestion")
-  if copilot.is_visible() then
-    copilot.dismiss()
+  local ok, minuet = pcall(require, "minuet.virtualtext")
+  if ok and minuet.action.is_visible() then
+    minuet.action.dismiss()
   end
 
   local cmp = require("blink.cmp")

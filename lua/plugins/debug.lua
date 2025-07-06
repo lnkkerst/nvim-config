@@ -2,6 +2,7 @@
 return {
   {
     "mfussenegger/nvim-dap",
+    version = false,
     cmd = {
       "DapSetLogLevel",
       "DapShowLog",
@@ -44,25 +45,8 @@ return {
       },
       {
         "igorlfs/nvim-dap-view",
+        version = false,
         opts = {},
-        config = function(_, opts)
-          local dap, dv = require("dap"), require("dap-view")
-
-          dv.setup(opts)
-
-          dap.listeners.before.attach["dap-view-config"] = function()
-            dv.open()
-          end
-          dap.listeners.before.launch["dap-view-config"] = function()
-            dv.open()
-          end
-          dap.listeners.before.event_terminated["dap-view-config"] = function()
-            dv.close()
-          end
-          dap.listeners.before.event_exited["dap-view-config"] = function()
-            dv.close()
-          end
-        end,
       },
     },
     config = function()
