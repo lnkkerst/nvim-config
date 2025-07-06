@@ -1,16 +1,6 @@
 ---@type LazySpec
 return {
   {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    opts = {
-      suggestion = { enabled = true, auto_trigger = true },
-      panel = { enabled = false },
-    },
-  },
-
-  {
     "olimorris/codecompanion.nvim",
     cmd = {
       "CodeCompanion",
@@ -39,5 +29,25 @@ return {
     "GeorgesAlkhouri/nvim-aider",
     cmd = "Aider",
     opts = {},
+  },
+
+  {
+    "milanglacier/minuet-ai.nvim",
+    opts = {
+      provider = "openai_compatible",
+      provider_options = {
+        openai_compatible = {
+          model = "google/gemini-2.0-flash-001",
+        },
+      },
+
+      virtualtext = {
+        auto_trigger_ft = { "*" },
+        keymap = {
+          prev = "<A-[>",
+          next = "<A-]>",
+        },
+      },
+    },
   },
 }
