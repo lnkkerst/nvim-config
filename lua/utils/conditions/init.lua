@@ -2,7 +2,7 @@ local M = {}
 
 M.use_prettier = function()
   local utils = require("null-ls.utils").make_conditional_utils()
-  return utils.root_has_file_matches(".*prettierrc.*")
+  return utils.root_has_file_matches(".*prettierrc.*") or not M.use_biome()
 end
 
 M.use_biome = function()
