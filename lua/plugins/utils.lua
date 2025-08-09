@@ -275,6 +275,7 @@ return {
   {
     "echasnovski/mini.keymap",
     version = false,
+    vscode = true,
     opts = {},
   },
 

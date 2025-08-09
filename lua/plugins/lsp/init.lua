@@ -118,7 +118,7 @@ return {
   {
     "rachartier/tiny-inline-diagnostic.nvim",
     version = false,
-    event = "LspAttach",
+    event = { "LspAttach", "LazyFile" },
     priority = 1000,
     opts = {
       preset = "modern",
