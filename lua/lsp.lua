@@ -46,6 +46,7 @@ M.servers = {
   ["mdx_analyzer"] = {},
   ["neocmake"] = {},
   ["rust_analyzer"] = { format = true },
+  ["lemminx"] = { format = true },
 }
 
 M.server_lists = {
