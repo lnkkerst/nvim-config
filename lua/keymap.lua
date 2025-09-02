@@ -63,15 +63,6 @@ vim.api.nvim_create_autocmd("User", {
   end,
 })
 
--- Save file
---[[ Not good maybe
-map(
-  { "i", "x", "n", "s" },
-  "<C-s>",
-  "<cmd>w<cr><esc>",
-  { desc = "Save File" }
-)
-]]
 map("n", "<leader>w", "<cmd>w<cr>")
 
 -- Move in line
@@ -154,6 +145,14 @@ map_multistep({ "i" }, "<Tab>", {
   "increase_indent",
   "jump_after_close",
   "jump_after_tsnode",
+  {
+    condition = function()
+      return true
+    end,
+    action = function()
+      return "<Tab>"
+    end,
+  },
 }, {})
 
 map_multistep({ "i" }, "<S-Tab>", {
