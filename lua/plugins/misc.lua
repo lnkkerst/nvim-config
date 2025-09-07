@@ -14,7 +14,8 @@ return {
       cn = {
         enabled = true,
       },
-      injector = { ---@type table<lc.lang, lc.inject>
+      ---@type table<lc.lang, lc.inject>
+      injector = {
         ["python3"] = {
           before = true,
         },
@@ -24,6 +25,9 @@ return {
         },
         ["java"] = {
           before = "import java.util.*;",
+        },
+        ["golang"] = {
+          before = "package main",
         },
       },
     },
