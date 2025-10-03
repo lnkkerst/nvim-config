@@ -167,7 +167,7 @@ return {
   {
     "MeanderingProgrammer/render-markdown.nvim",
     enabled = false,
-    ft = { "markdown" },
+    ft = { "markdown", "codecompanion" },
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-tree/nvim-web-devicons",

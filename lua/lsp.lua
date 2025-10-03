@@ -11,42 +11,54 @@ local lsp_setup = false
 -- Servers
 ---@type table<string, ServerConfig>
 M.servers = {
-  ["lua_ls"] = { format = false },
-  ["clangd"] = { format = false },
-  ["dprint"] = { enabled = false, format = true },
-  ["gopls"] = { format = true },
-  ["jsonls"] = {},
-  ["oxlint"] = {},
+  -- Python
   ["pyright"] = { enabled = false },
   ["basedpyright"] = { enabled = false },
-  ["delance"] = { mason_install = false },
-  ["pyrefly"] = { enabled = false, mason_install = false },
-  ["systemd_ls"] = { format = true },
-  ["ts_ls"] = { mason_install = false },
+  ["delance"] = { enabled = true, mason_install = false },
+  ["ty"] = { enabled = false },
+  ["pyrefly"] = { enabled = false },
+  ["ruff"] = { format = true },
+
+  -- Web
+  ["ts_ls"] = { enabled = true, mason_install = false },
+  ["tsgo"] = { enabled = false },
   ["vue_ls"] = { mason_install = false },
-  ["yamlls"] = {},
+  ["dprint"] = { enabled = false, format = true },
+  ["oxlint"] = {},
+  ["tailwindcss"] = {},
+  ["unocss"] = {},
+  ["astro"] = {},
+  ["prismals"] = { format = true },
   ["eslint"] = { format = true },
   ["html"] = {},
   ["cssls"] = {},
-  ["cmake"] = {},
-  ["dockerls"] = {},
-  ["jdtls"] = { format = true },
-  ["tailwindcss"] = {},
-  ["ruff"] = { format = true },
-  ["taplo"] = { format = true },
-  ["prismals"] = { format = true },
-  ["null-ls"] = { enabled = false, format = true, mason_install = false },
-  ["kotlin_language_server"] = { format = true },
-  ["ty"] = { enabled = false },
-  ["stylelint_lsp"] = {},
-  ["zls"] = { format = true },
-  ["unocss"] = {},
-  ["bashls"] = {},
   ["emmet_language_server"] = {},
   ["mdx_analyzer"] = {},
+  ["stylelint_lsp"] = {},
+  ["cssmodules_ls"] = {},
+
+  ["jsonls"] = {},
+  ["yamlls"] = {},
+  ["taplo"] = { format = true },
+  ["systemd_ls"] = { format = true },
   ["neocmake"] = {},
-  ["rust_analyzer"] = { format = true },
+  ["cmake"] = {},
+  ["dockerls"] = {},
   ["lemminx"] = { format = true },
+
+  -- Other lang
+  ["lua_ls"] = { format = false },
+  ["clangd"] = { format = false },
+  ["gopls"] = { format = true },
+  ["jdtls"] = { format = true },
+  ["kotlin_language_server"] = { format = true },
+  ["zls"] = { format = true },
+  ["bashls"] = {},
+  ["rust_analyzer"] = { format = true },
+
+  -- Generic
+  ["null-ls"] = { enabled = false, format = true, mason_install = false },
+  ["copilot"] = {},
 }
 
 M.server_lists = {
@@ -191,6 +203,10 @@ M.setup = function()
       end, list)
     end,
   })
+
+  if vim.fn.has("nvim-0.12") == 1 then
+    vim.lsp.inline_completion.enable(true)
+  end
 
   lsp_setup = true
 end

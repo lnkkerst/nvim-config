@@ -17,8 +17,47 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
+      { "ravitemer/mcphub.nvim", opts = {} },
     },
-    opts = {},
+    opts = {
+      adapters = {
+        http = {
+          oaipro = function()
+            return require("codecompanion.adapters").extend("openai_compatible", {
+              name = "oaipro",
+              formatted_name = "OAIPro",
+              env = {
+                url = "https://api.oaipro.com",
+                api_key = "OAIPRO_API_KEY",
+                chat_url = "/v1/chat/completions",
+              },
+            })
+          end,
+
+          openrouter = function()
+            return require("codecompanion.adapters").extend("openai_compatible", {
+              name = "openrouter",
+              formatted_name = "OpenRouter",
+              env = {
+                url = "https://openrouter.ai/api",
+                api_key = "OPENROUTER_API_KEY",
+                chat_url = "/v1/chat/completions",
+              },
+            })
+          end,
+        },
+      },
+      extensions = {
+        mcphub = {
+          callback = "mcphub.extensions.codecompanion",
+          opts = {
+            make_vars = true,
+            make_slash_commands = true,
+            show_result_in_chat = true,
+          },
+        },
+      },
+    },
     config = function(_, opts)
       require("plugins.codecompanion.fidget_spinner"):init()
       require("codecompanion").setup(opts)
@@ -36,7 +75,7 @@ return {
     event = { "InsertEnter", "LazyFile" },
     enabled = function()
       -- Disabled by default
-      return vim.env["NVIM_MINUET_CONFIG"] ~= nil
+      return vim.env["NVIM_MINUET_CONFIG"] ~= nil and false
     end,
     opts = function()
       local env_config_str = vim.env["NVIM_MINUET_CONFIG"]
@@ -67,6 +106,25 @@ return {
       end
 
       return config
+    end,
+  },
+
+  {
+    "folke/sidekick.nvim",
+    enabled = false,
+    opts = {},
+  },
+
+  {
+    "huggingface/llm.nvim",
+    enabled = false,
+    opts = function()
+      return {
+        backend = "openai",
+        url = "https://openrouter.ai/api/v1",
+        model = "google/gemini-2.0-flash-001",
+        api_token = vim.env["OPENROUTER_API_KEY"],
+      }
     end,
   },
 }
