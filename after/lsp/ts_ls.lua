@@ -41,12 +41,9 @@ return {
         name = "@vue/typescript-plugin",
         location = "/usr/lib/node_modules/@vue/typescript-plugin",
         languages = {
-          "javascript",
-          "typescript",
           "vue",
-          "javascriptreact",
-          "typescriptreact",
         },
+        configNamespace = "typescript",
       },
     },
     tsserver = {

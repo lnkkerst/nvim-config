@@ -27,7 +27,7 @@ return {
           before = "import java.util.*;",
         },
         ["golang"] = {
-          before = "package main",
+          before = { "package main" },
         },
       },
     },

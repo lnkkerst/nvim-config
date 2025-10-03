@@ -129,8 +129,18 @@ map_combo({ "t" }, "jk", function()
 end)
 
 -- Tab
-map_multistep({ "i" }, "<Tab>", {
+map_multistep({ "i", "n" }, "<Tab>", {
   "blink_accept",
+  -- Native inline completion
+  {
+    condition = function()
+      return vim.lsp.inline_completion.is_enabled()
+    end,
+    action = function()
+      vim.lsp.inline_completion.get()
+    end,
+  },
+  -- Minuet inline completion
   {
     condition = function()
       local ok, minuet = pcall(require, "minuet.virtualtext")
@@ -139,6 +149,24 @@ map_multistep({ "i" }, "<Tab>", {
     action = function()
       local action = require("minuet.virtualtext").action
       return action.accept()
+    end,
+  },
+  -- Sidekick NES
+  {
+    condition = function()
+      local ok, sidekick = pcall(require, "sidekick")
+      return ok and sidekick.nes_jump_or_apply()
+    end,
+    action = function() end,
+  },
+  -- llm-ls
+  {
+    condition = function()
+      local ok, completion = pcall(require, "llm.completion")
+      return ok and completion.suggestion
+    end,
+    action = function()
+      vim.schedule(require("llm.completion").complete)
     end,
   },
   "vimsnippet_next",
