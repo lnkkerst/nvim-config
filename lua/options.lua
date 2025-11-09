@@ -107,6 +107,8 @@ local options = {
   smartindent = true,
   smarttab = true,
 
+  spell = false,
+
   -- Put new windows below current
   splitbelow = true,
 

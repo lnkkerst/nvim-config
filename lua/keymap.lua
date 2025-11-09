@@ -131,14 +131,20 @@ end)
 -- Tab
 map_multistep({ "i", "n" }, "<Tab>", {
   "blink_accept",
+  -- Sidekick NES
+  {
+    condition = function()
+      local ok, sidekick = pcall(require, "sidekick")
+      return ok and sidekick.nes_jump_or_apply()
+    end,
+    action = function() end,
+  },
   -- Native inline completion
   {
     condition = function()
-      return vim.lsp.inline_completion.is_enabled()
+      return vim.lsp.inline_completion.get()
     end,
-    action = function()
-      vim.lsp.inline_completion.get()
-    end,
+    action = function() end,
   },
   -- Minuet inline completion
   {
@@ -150,14 +156,6 @@ map_multistep({ "i", "n" }, "<Tab>", {
       local action = require("minuet.virtualtext").action
       return action.accept()
     end,
-  },
-  -- Sidekick NES
-  {
-    condition = function()
-      local ok, sidekick = pcall(require, "sidekick")
-      return ok and sidekick.nes_jump_or_apply()
-    end,
-    action = function() end,
   },
   -- llm-ls
   {

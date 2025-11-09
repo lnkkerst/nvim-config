@@ -25,6 +25,7 @@ return {
         function()
           require("quicker").toggle()
         end,
+        desc = "Toggle quickfix",
       },
 
       {
@@ -32,6 +33,7 @@ return {
         function()
           require("quicker").toggle({ loclist = true })
         end,
+        desc = "Toggle loclist",
       },
     },
     ---@module "quicker"
