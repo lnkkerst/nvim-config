@@ -142,6 +142,9 @@ map_multistep({ "i", "n" }, "<Tab>", {
   -- Native inline completion
   {
     condition = function()
+      if not vim.fn.has("nvim-0.12") then
+        return false
+      end
       return vim.lsp.inline_completion.get()
     end,
     action = function() end,
