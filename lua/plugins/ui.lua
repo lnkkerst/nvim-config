@@ -188,6 +188,7 @@ return {
 
   {
     "nvim-zh/colorful-winsep.nvim",
+    enabled = false,
     event = { "WinLeave" },
     opts = {
       smooth = false,

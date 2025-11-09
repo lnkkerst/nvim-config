@@ -49,16 +49,16 @@ return {
         },
       })
 
-      local muon = {
-        name = "muon",
-        method = none_ls.methods.FORMATTING,
-        filetypes = { "meson" },
-        generator = require("null-ls.helpers").formatter_factory({
-          command = "muon",
-          args = { "fmt", "-" },
-        }),
-      }
-      none_ls.register(muon)
+      -- local muon = {
+      --   name = "muon",
+      --   method = none_ls.methods.FORMATTING,
+      --   filetypes = { "meson" },
+      --   generator = require("null-ls.helpers").formatter_factory({
+      --     command = "muon",
+      --     args = { "fmt", "-" },
+      --   }),
+      -- }
+      -- none_ls.register(muon)
 
       local caddy = {
         name = "caddy",

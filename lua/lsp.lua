@@ -42,9 +42,14 @@ M.servers = {
   ["taplo"] = { format = true },
   ["systemd_ls"] = { format = true },
   ["neocmake"] = {},
-  ["cmake"] = {},
+  ["cmake"] = { enabled = false },
   ["dockerls"] = {},
   ["lemminx"] = { format = true },
+  ["hyprls"] = { format = true },
+  ["mesonlsp"] = { format = true },
+  ["nginx_language_server"] = {},
+  ["vale_ls"] = {},
+  ["cspell_ls"] = {},
 
   -- Other lang
   ["lua_ls"] = { format = false },
@@ -107,29 +112,15 @@ M.setup = function()
     underline = false,
     severity_sort = true,
     float = false,
-    --[[
-  virtual_text = {
-    current_line = true,
-    source = true,
-    spacing = 6,
-    prefix = " ",
-    suffix = " ",
-  },
-  ]]
-    --[[
-  virtual_lines = {
-    current_line = true,
-  },
-  ]]
   })
 
   -- User LSP attach config
   vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("user_lsp_attach", {}),
     callback = function(ev)
-      -- -- Disable semantic tokens
-      -- local client = vim.lsp.get_client_by_id(ev.data.client_id)
-      -- client.server_capabilities.semanticTokensProvider = nil
+      -- Disable semantic tokens
+      local client = vim.lsp.get_client_by_id(ev.data.client_id)
+      client.server_capabilities.semanticTokensProvider = nil
     end,
   })
 
