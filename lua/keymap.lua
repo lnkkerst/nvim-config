@@ -128,17 +128,9 @@ map_combo({ "t" }, "jk", function()
   vim.api.nvim_feedkeys(keys, "in", true)
 end)
 
--- Tab
-map_multistep({ "i", "n" }, "<Tab>", {
+-- <C-y> for completion confirmation
+map_multistep({ "i" }, "<C-y>", {
   "blink_accept",
-  -- Sidekick NES
-  {
-    condition = function()
-      local ok, sidekick = pcall(require, "sidekick")
-      return ok and sidekick.nes_jump_or_apply()
-    end,
-    action = function() end,
-  },
   -- Native inline completion
   {
     condition = function()
@@ -170,6 +162,10 @@ map_multistep({ "i", "n" }, "<Tab>", {
       vim.schedule(require("llm.completion").complete)
     end,
   },
+})
+
+-- Tab
+map_multistep({ "i" }, "<Tab>", {
   "vimsnippet_next",
   "increase_indent",
   "jump_after_close",
@@ -183,6 +179,18 @@ map_multistep({ "i", "n" }, "<Tab>", {
     end,
   },
 }, {})
+
+-- NES
+map_multistep({ "n" }, "<Tab>", {
+  -- Sidekick NES
+  {
+    condition = function()
+      local ok, sidekick = pcall(require, "sidekick")
+      return ok and sidekick.nes_jump_or_apply()
+    end,
+    action = function() end,
+  },
+})
 
 map_multistep({ "i" }, "<S-Tab>", {
   "vimsnippet_prev",
