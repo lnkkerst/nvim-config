@@ -71,6 +71,17 @@ return {
         }),
       }
       none_ls.register(caddy)
+
+      none_ls.register({
+        name = "kdlfmt",
+        method = none_ls.methods.FORMATTING,
+        filetypes = { "kdl" },
+        generator = require("null-ls.helpers").formatter_factory({
+          command = "kdlfmt",
+          to_stdin = true,
+          args = { "format", "--stdin" },
+        }),
+      })
     end,
   },
 }
