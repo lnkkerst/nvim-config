@@ -2,6 +2,7 @@
 return {
   {
     "nvimdev/lspsaga.nvim",
+    version = false,
     -- branch = "main",
     event = "LspAttach",
     dependencies = {
@@ -113,7 +114,7 @@ return {
     opts = {},
   },
 
-  { "b0o/schemastore.nvim", event = { "LspAttach" } },
+  { "b0o/schemastore.nvim", lazy = true, event = { "LspAttach" } },
 
   {
     "rachartier/tiny-inline-diagnostic.nvim",
@@ -142,6 +143,7 @@ return {
       },
     },
     init = function()
+      -- disable inlay hints in insert mode
       vim.api.nvim_create_autocmd("InsertEnter", {
         callback = function()
           vim.lsp.inlay_hint.enable(false)

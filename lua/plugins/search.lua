@@ -3,6 +3,7 @@ return {
   {
     "kevinhwang91/nvim-hlslens",
     enabled = true,
+    version = false,
     event = { "CmdlineEnter" },
     opts = {},
     config = function(_, opts)

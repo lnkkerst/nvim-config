@@ -65,12 +65,6 @@ return {
   },
 
   {
-    "GeorgesAlkhouri/nvim-aider",
-    cmd = "Aider",
-    opts = {},
-  },
-
-  {
     "milanglacier/minuet-ai.nvim",
     event = { "InsertEnter", "LazyFile" },
     enabled = function()

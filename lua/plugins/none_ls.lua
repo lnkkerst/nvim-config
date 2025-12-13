@@ -1,18 +1,6 @@
 ---@type LazySpec
 return {
   {
-    "sbdchd/neoformat",
-    cmd = "Neoformat",
-    keys = {
-      {
-        "<M-S-f>",
-        "<cmd>Neoformat<cr>",
-        desc = "Neoformat",
-      },
-    },
-  },
-
-  {
     "nvimtools/none-ls.nvim",
     dependencies = { "nvim-lua/plenary.nvim", "mason.nvim" },
     event = { "BufReadPre", "BufNewFile" },

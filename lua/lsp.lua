@@ -13,14 +13,14 @@ local lsp_setup = false
 M.servers = {
   -- Python
   ["pyright"] = { enabled = false },
-  ["basedpyright"] = { enabled = false },
-  ["delance"] = { enabled = true, mason_install = false },
+  ["basedpyright"] = { enabled = true },
+  ["delance"] = { enabled = false, mason_install = false },
   ["ty"] = { enabled = false },
   ["pyrefly"] = { enabled = false },
   ["ruff"] = { format = true },
 
   -- Web
-  ["ts_ls"] = { enabled = true, mason_install = false },
+  ["ts_ls"] = { enabled = true, mason_install = true },
   ["tsgo"] = { enabled = false },
   ["vue_ls"] = { mason_install = false },
   ["dprint"] = { enabled = false, format = true },
