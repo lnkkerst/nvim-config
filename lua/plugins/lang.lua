@@ -96,7 +96,7 @@ return {
           require("swenv.api").auto_venv()
         end,
       })
-      vim.api.nvim_create_user_command("VenvS", function()
+      vim.api.nvim_create_user_command("SwitchVenv", function()
         require("swenv.api").pick_venv()
       end, {})
     end,
@@ -104,22 +104,24 @@ return {
       return {
         venvs_path = vim.fn.expand("~/.virtualenvs"),
         post_set_venv = function()
-          local client = vim.lsp.get_clients({ name = "basedpyright" })[1]
-          if not client then
-            return
+          for _, client_name in ipairs({ "basedpyright", "pyright" }) do
+            local client = vim.lsp.get_clients({ name = client_name })[1]
+            if not client then
+              return
+            end
+            local venv = require("swenv.api").get_current_venv()
+            if not venv then
+              return
+            end
+            local venv_python = venv.path .. "/bin/python"
+            if client.settings then
+              client.settings = vim.tbl_deep_extend("force", client.settings, { python = { pythonPath = venv_python } })
+            else
+              client.config.settings =
+                vim.tbl_deep_extend("force", client.config.settings, { python = { pythonPath = venv_python } })
+            end
+            client.notify("workspace/didChangeConfiguration", { settings = nil })
           end
-          local venv = require("swenv.api").get_current_venv()
-          if not venv then
-            return
-          end
-          local venv_python = venv.path .. "/bin/python"
-          if client.settings then
-            client.settings = vim.tbl_deep_extend("force", client.settings, { python = { pythonPath = venv_python } })
-          else
-            client.config.settings =
-              vim.tbl_deep_extend("force", client.config.settings, { python = { pythonPath = venv_python } })
-          end
-          client.notify("workspace/didChangeConfiguration", { settings = nil })
         end,
       }
     end,
@@ -163,18 +165,6 @@ return {
     "iamcco/markdown-preview.nvim",
     ft = "markdown",
     build = "cd app && pnpm install",
-  },
-  {
-    "MeanderingProgrammer/render-markdown.nvim",
-    enabled = false,
-    ft = { "markdown", "codecompanion" },
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-tree/nvim-web-devicons",
-    },
-    ---@module 'render-markdown'
-    ---@type render.md.UserConfig
-    opts = {},
   },
 
   -- java

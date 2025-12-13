@@ -122,7 +122,7 @@ map("n", "zpr", function()
 end, { noremap = true, desc = "Fold by search results" })
 
 -- Escape
-map_combo({ "i", "c", "x", "s" }, "jk", "<BS><BS><Esc>")
+map_combo({ "i", "c", "s" }, "jk", "<BS><BS><Esc>")
 map_combo({ "t" }, "jk", function()
   local keys = vim.api.nvim_replace_termcodes("<BS><BS><C-\\><C-n>", true, false, true)
   vim.api.nvim_feedkeys(keys, "in", true)
@@ -181,7 +181,7 @@ map_multistep({ "i" }, "<Tab>", {
 }, {})
 
 -- NES
-map_multistep({ "n" }, "<Tab>", {
+map_multistep({ "n" }, "<C-y>", {
   -- Sidekick NES
   {
     condition = function()

@@ -4,20 +4,11 @@ return {
     "PHSix/faster.nvim",
     vscode = true,
     keys = {
-      {
-        "j",
-        "<Plug>(faster_move_gj)",
-        desc = "Faster move j",
-        mode = { "n" },
-        silent = true,
-      },
-      {
-        "k",
-        "<Plug>(faster_move_gk)",
-        desc = "Faster move k",
-        mode = { "n" },
-        silent = true,
-      },
+      { "j", "<Plug>(faster_move_gj)", desc = "Faster move j", mode = { "n" }, silent = true },
+      { "k", "<Plug>(faster_move_gk)", desc = "Faster move k", mode = { "n" }, silent = true },
+
+      { "j", "<Plug>(faster_vmove_j)", desc = "Faster move j", mode = { "v" }, silent = true },
+      { "k", "<Plug>(faster_vmove_k)", desc = "Faster move k", mode = { "v" }, silent = true },
     },
   },
 

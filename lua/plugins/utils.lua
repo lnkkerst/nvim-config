@@ -288,6 +288,7 @@ return {
 
   {
     "mistricky/codesnap.nvim",
+    version = false,
     build = "make",
     cmd = { "CodeSnap", "CodeSnapSave", "CodeSnapHighlight", "CodeSnapSaveHighlight", "CodeSnapASCII" },
     opts = {
