@@ -40,7 +40,7 @@ M.servers = {
   ["jsonls"] = {},
   ["yamlls"] = {},
   ["taplo"] = { format = true },
-  ["systemd_ls"] = { format = true },
+  ["systemd_lsp"] = { format = true },
   ["neocmake"] = {},
   ["cmake"] = { enabled = false },
   ["dockerls"] = {},
