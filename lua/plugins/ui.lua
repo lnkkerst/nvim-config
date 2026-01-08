@@ -190,7 +190,12 @@ return {
     "nvim-zh/colorful-winsep.nvim",
     event = { "WinLeave" },
     opts = {
-      smooth = false,
+      border = "single",
+      animate = {
+        enabled = false,
+      },
     },
   },
+
+  { "mrjones2014/smart-splits.nvim", build = "./kitty/install-kittens.bash" },
 }

@@ -17,7 +17,6 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
-      { "ravitemer/mcphub.nvim", opts = {} },
     },
     opts = {
       adapters = {
@@ -47,16 +46,7 @@ return {
           end,
         },
       },
-      extensions = {
-        mcphub = {
-          callback = "mcphub.extensions.codecompanion",
-          opts = {
-            make_vars = true,
-            make_slash_commands = true,
-            show_result_in_chat = true,
-          },
-        },
-      },
+      extensions = {},
     },
     config = function(_, opts)
       require("plugins.codecompanion.fidget_spinner"):init()
@@ -105,6 +95,7 @@ return {
 
   {
     "folke/sidekick.nvim",
+    event = "VeryLazy",
     opts = {},
   },
 
