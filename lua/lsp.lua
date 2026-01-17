@@ -60,6 +60,7 @@ M.servers = {
   ["zls"] = { format = true },
   ["bashls"] = {},
   ["rust_analyzer"] = { format = true },
+  ["qmlls"] = { format = true },
 
   -- Generic
   ["null-ls"] = { enabled = false, format = true, mason_install = false },

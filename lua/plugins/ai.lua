@@ -47,6 +47,19 @@ return {
         },
       },
       extensions = {},
+      strategies = {
+        chat = {
+          keymaps = {
+            send = {
+              callback = function(chat)
+                vim.cmd("stopinsert")
+                chat:submit()
+                chat:add_buf_message({ role = "llm", content = "" })
+              end,
+            },
+          },
+        },
+      },
     },
     config = function(_, opts)
       require("plugins.codecompanion.fidget_spinner"):init()
