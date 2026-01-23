@@ -6,6 +6,7 @@ local function augroup(name, opts)
   local defaults = {
     clear = true,
   }
+  opts = vim.tbl_deep_extend("force", defaults, opts or {})
   return vim.api.nvim_create_augroup(name, vim.tbl_deep_extend("force", defaults, opts))
 end
 

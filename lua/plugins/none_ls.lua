@@ -6,8 +6,10 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     config = function()
       local none_ls = require("null-ls")
-      local conditions = require("utils.conditions")
       local builtins = require("null-ls.builtins")
+
+      local cond = require("utils.conditions")
+      local utils = require("utils")
 
       none_ls.setup({
         sources = {
@@ -15,7 +17,7 @@ return {
           builtins.formatting.shfmt,
           builtins.formatting.prettierd.with({
             condition = function()
-              return conditions.use_prettier()
+              return cond.has_prettier()
             end,
           }),
           builtins.formatting.fish_indent,
@@ -30,46 +32,50 @@ return {
           builtins.diagnostics.checkmake,
           builtins.diagnostics.commitlint.with({
             condition = function()
-              return conditions.use_commitlint()
+              return cond.has_commitlint()
             end,
           }),
           builtins.diagnostics.selene,
         },
       })
 
-      -- local muon = {
-      --   name = "muon",
-      --   method = none_ls.methods.FORMATTING,
-      --   filetypes = { "meson" },
-      --   generator = require("null-ls.helpers").formatter_factory({
-      --     command = "muon",
-      --     args = { "fmt", "-" },
-      --   }),
-      -- }
-      -- none_ls.register(muon)
+      if utils.executable("muon") then
+        none_ls.register({
+          name = "muon",
+          method = none_ls.methods.FORMATTING,
+          filetypes = { "meson" },
+          generator = require("null-ls.helpers").formatter_factory({
+            command = "muon",
+            args = { "fmt", "-" },
+          }),
+        })
+      end
 
-      local caddy = {
-        name = "caddy",
-        method = none_ls.methods.FORMATTING,
-        filetypes = { "Caddyfile" },
-        generator = require("null-ls.helpers").formatter_factory({
-          command = "caddy",
-          to_stdin = true,
-          args = { "fmt", "-" },
-        }),
-      }
-      none_ls.register(caddy)
+      if utils.executable("caddy") then
+        none_ls.register({
+          name = "caddy",
+          method = none_ls.methods.FORMATTING,
+          filetypes = { "Caddyfile" },
+          generator = require("null-ls.helpers").formatter_factory({
+            command = "caddy",
+            to_stdin = true,
+            args = { "fmt", "-" },
+          }),
+        })
+      end
 
-      none_ls.register({
-        name = "kdlfmt",
-        method = none_ls.methods.FORMATTING,
-        filetypes = { "kdl" },
-        generator = require("null-ls.helpers").formatter_factory({
-          command = "kdlfmt",
-          to_stdin = true,
-          args = { "format", "--stdin" },
-        }),
-      })
+      if utils.executable("kdlfmt") then
+        none_ls.register({
+          name = "kdlfmt",
+          method = none_ls.methods.FORMATTING,
+          filetypes = { "kdl" },
+          generator = require("null-ls.helpers").formatter_factory({
+            command = "kdlfmt",
+            to_stdin = true,
+            args = { "format", "--stdin" },
+          }),
+        })
+      end
     end,
   },
 }
