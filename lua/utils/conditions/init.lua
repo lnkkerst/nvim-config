@@ -1,16 +1,16 @@
 local M = {}
 
-M.use_prettier = function()
+M.has_prettier = function()
   local utils = require("null-ls.utils").make_conditional_utils()
-  return utils.root_has_file_matches(".*prettierrc.*") or not M.use_biome()
+  return utils.root_has_file_matches(".*prettierrc.*")
 end
 
-M.use_biome = function()
+M.has_biome = function()
   local utils = require("null-ls.utils").make_conditional_utils()
   return utils.root_has_file_matches("biome.json")
 end
 
-M.use_commitlint = function()
+M.has_commitlint = function()
   local utils = require("null-ls.utils").make_conditional_utils()
   return utils.root_has_file_matches("\\.?commitlint.*")
 end
@@ -18,15 +18,16 @@ end
 ---@param field string
 ---@param fname string?
 M.package_json_has_field = function(field, fname)
-  local path = vim.fn.fnamemodify(fname or vim.api.nvim_buf_get_name(0), ":h")
-  local root_with_package = vim.fs.dirname(vim.fs.find("package.json", { path = path, upward = true })[1])
+  local buf_name = fname or vim.api.nvim_buf_get_name(0)
+  local path = vim.fn.fnamemodify(buf_name, ":h")
+  local package_json = vim.fs.find("package.json", { path = path, upward = true })[1]
+  if not package_json then
+    return false
+  end
 
-  if root_with_package then
-    local path_sep = M.iswin and "\\" or "/"
-    for line in io.lines(root_with_package .. path_sep .. "package.json") do
-      if line:find(field) then
-        return true
-      end
+  for line in io.lines(package_json) do
+    if line:find(field, 1, true) then
+      return true
     end
   end
   return false

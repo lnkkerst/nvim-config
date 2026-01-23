@@ -54,6 +54,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("utils").lazy_file()
 
+---@type LazyConfig
 require("lazy").setup({
   spec = {
     { import = "plugins" },
