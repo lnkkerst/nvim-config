@@ -62,7 +62,7 @@ return {
       },
     },
     config = function(_, opts)
-      require("plugins.codecompanion.fidget_spinner"):init()
+      require("config.codecompanion.fidget_spinner"):init()
       require("codecompanion").setup(opts)
     end,
   },
