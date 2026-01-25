@@ -84,4 +84,13 @@ return {
       end
     end,
   },
+
+  {
+    "nmac427/guess-indent.nvim",
+    -- Make sure to register autocmd after builtin editorconfig plugin
+    event = { "BufReadPre" },
+    opts = {
+      override_editorconfig = true,
+    },
+  },
 }

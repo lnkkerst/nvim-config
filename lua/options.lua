@@ -23,6 +23,11 @@ local options = {
   -- Use spaces instead of tabs
   expandtab = true,
 
+  -- Enable folding
+  foldmethod = "expr",
+  foldexpr = "v:lua.vim.treesitter.foldexpr()",
+  foldlevel = 99,
+
   --formatoptions = "1jcroql",
   formatoptions = "jcroqlnt",
 

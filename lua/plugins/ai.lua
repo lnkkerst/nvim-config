@@ -19,6 +19,19 @@ return {
       { "ga", "<cmd>CodeCompanionChat Add<cr>", mode = { "x" }, desc = "Add code to codecompanion chat" },
     },
     opts = {
+      interactions = {
+        chat = {
+          keymaps = {
+            send = {
+              callback = function(chat)
+                vim.cmd("stopinsert")
+                chat:submit()
+                chat:add_buf_message({ role = "llm", content = "" })
+              end,
+            },
+          },
+        },
+      },
       adapters = {
         http = {
           oaipro = function()
@@ -47,19 +60,6 @@ return {
         },
       },
       extensions = {},
-      strategies = {
-        chat = {
-          keymaps = {
-            send = {
-              callback = function(chat)
-                vim.cmd("stopinsert")
-                chat:submit()
-                chat:add_buf_message({ role = "llm", content = "" })
-              end,
-            },
-          },
-        },
-      },
     },
     config = function(_, opts)
       require("config.codecompanion.fidget_spinner"):init()
@@ -110,18 +110,5 @@ return {
     "folke/sidekick.nvim",
     event = "VeryLazy",
     opts = {},
-  },
-
-  {
-    "huggingface/llm.nvim",
-    enabled = false,
-    opts = function()
-      return {
-        backend = "openai",
-        url = "https://openrouter.ai/api/v1",
-        model = "google/gemini-2.0-flash-001",
-        api_token = vim.env["OPENROUTER_API_KEY"],
-      }
-    end,
   },
 }

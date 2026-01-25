@@ -2,7 +2,6 @@
 return {
   {
     "rebelot/heirline.nvim",
-    enabled = true,
     version = false,
     event = { "VeryLazy" },
     keys = {
