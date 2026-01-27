@@ -64,7 +64,7 @@ M.servers = {
 
   -- Generic
   ["null-ls"] = { enabled = false, format = true, mason_install = false },
-  ["copilot"] = {},
+  ["copilot"] = { enabled = false },
 }
 
 M.server_lists = {

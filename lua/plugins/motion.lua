@@ -70,6 +70,7 @@ return {
 
   {
     "chrisgrieser/nvim-spider",
+    vscode = true,
     keys = {
       {
         "w",
