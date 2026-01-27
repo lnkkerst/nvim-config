@@ -2,7 +2,7 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    branch = "master",
+    branch = "main",
     version = false,
     opts = {},
   },

@@ -35,6 +35,7 @@ require("utils").lazy_file()
 require("lazy").setup({
   spec = {
     { import = "plugins" },
+    { import = "overlay.plugins" },
   },
   defaults = {
     cond = function(plugin)
@@ -74,9 +75,14 @@ require("lazy").setup({
   rocks = {
     hererocks = true,
   },
+  dev = {
+    path = "~/projects/nvim-plugins",
+  },
 })
 
 require("keymap")
 require("lsp").setup()
 require("autocmd")
 require("commands")
+
+pcall(require, "overlay")

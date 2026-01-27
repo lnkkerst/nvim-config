@@ -114,13 +114,13 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- -- Enable treesitter highlighting, already done by snacks.nvim
--- vim.api.nvim_create_autocmd("FileType", {
---   group = augroup("treesitter_highlight"),
---   callback = function(args)
---     local buf, ft = args.buf, args.match
---     if vim.treesitter.language.add(ft) then
---       vim.treesitter.start(buf, ft)
---     end
---   end,
--- })
+-- Enable treesitter highlighting
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup("treesitter_highlight"),
+  callback = function(args)
+    local buf, ft = args.buf, args.match
+    if vim.treesitter.language.add(ft) then
+      vim.treesitter.start(buf, ft)
+    end
+  end,
+})
