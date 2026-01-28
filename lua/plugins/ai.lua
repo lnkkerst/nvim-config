@@ -109,6 +109,7 @@ return {
   {
     "folke/sidekick.nvim",
     event = "VeryLazy",
+    keys = { { "<leader>as", "<cmd>Sidekick cli toggle<cr>" } },
     opts = {},
   },
 }
