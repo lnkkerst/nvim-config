@@ -2,7 +2,7 @@
 return {
   {
     "kevinhwang91/nvim-bqf",
-    enabled = true,
+    version = false,
     ft = "qf",
     dependencies = {
       {
@@ -17,7 +17,6 @@ return {
   },
   {
     "stevearc/quicker.nvim",
-    enabled = true,
     ft = "qf",
     keys = {
       {

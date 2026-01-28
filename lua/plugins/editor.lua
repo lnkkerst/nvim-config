@@ -49,7 +49,6 @@ return {
   {
 
     "tzachar/highlight-undo.nvim",
-    keys = { { "u" }, { "<C-r>" }, { "p" }, { "P" } },
     opts = {
       ignored_filetypes = {
         "neo-tree",
@@ -71,7 +70,6 @@ return {
 
   {
     "JoosepAlviste/nvim-ts-context-commentstring",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
     lazy = true,
     opts = {
       enable_autocmd = false,

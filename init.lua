@@ -81,7 +81,7 @@ require("lazy").setup({
 })
 
 require("keymap")
-require("lsp").setup()
+require("lsp")
 require("autocmd")
 require("commands")
 

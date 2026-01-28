@@ -210,6 +210,43 @@ return {
         end,
         desc = "Pick files",
       },
+      {
+        "gd",
+        function()
+          require("snacks").picker.lsp_definitions()
+        end,
+        desc = "Pick LSP definitions",
+      },
+      {
+        "gri",
+        function()
+          require("snacks").picker.lsp_implementations()
+        end,
+        desc = "Pick LSP implementations",
+      },
+      {
+        "grr",
+        function()
+          require("snacks").picker.lsp_references()
+        end,
+        desc = "Pick LSP references",
+      },
+      {
+        "grt",
+        function()
+          require("snacks").picker.lsp_type_definitions()
+        end,
+        desc = "Pick LSP type definitions",
+      },
+      {
+        "gO",
+        function()
+          require("snacks").picker.lsp_symbols({
+            layout = "sidebar",
+          })
+        end,
+        desc = "Pick LSP outgoing calls",
+      },
 
       -- other
       {
