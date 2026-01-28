@@ -97,7 +97,7 @@ return {
       local wk = require("which-key")
       wk.setup(opts)
       wk.add({
-        { "<leader>a", group = "CodoCompanion" },
+        { "<leader>a", group = "AI" },
         { "<leader>d", group = "DAP" },
         { "<leader>f", group = "Pickers" },
         { "<leader>q", group = "Quickfix" },
