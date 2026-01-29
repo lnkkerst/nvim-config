@@ -2,15 +2,8 @@
 return {
   -- rust
   {
-    "mrcjkb/rustaceanvim",
-    enabled = false,
-    ft = { "rust" },
-  },
-
-  {
     "vxpm/ferris.nvim",
     ft = { "rust" },
-    enabled = true,
     opts = { create_commands = true },
   },
 
@@ -52,15 +45,6 @@ return {
     end,
   },
 
-  -- web
-  {
-    "pmizio/typescript-tools.nvim",
-    enabled = false,
-    lazy = true,
-    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-    ft = { "typescript", "typescriptreact", "javascript", "javascriptreact", "vue" },
-  },
-
   -- lua
   {
     "folke/lazydev.nvim",
@@ -74,14 +58,6 @@ return {
     },
     lazy = true,
     ft = "lua",
-  },
-
-  -- c/cpp
-  {
-    "p00f/clangd_extensions.nvim",
-    enabled = false,
-    lazy = true,
-    ft = "cpp",
   },
 
   -- python
@@ -137,7 +113,6 @@ return {
     cmd = { "GoInstallDeps" },
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
       "mfussenegger/nvim-dap", -- (optional) only if you use `gopher.dap`
     },
 
@@ -147,16 +122,6 @@ return {
       vim.cmd.GoInstallDeps()
     end,
     ---@type gopher.Config
-    opts = {},
-  },
-  {
-    "ray-x/go.nvim",
-    enabled = false,
-    dependencies = { -- optional packages
-      "neovim/nvim-lspconfig",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    ft = "go",
     opts = {},
   },
 

@@ -92,6 +92,7 @@ return {
           mini = {
             enabled = true,
           },
+          dropbar = true,
         },
       }
     end,

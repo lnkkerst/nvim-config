@@ -305,31 +305,6 @@ function M.make_file_last_modified()
   return FileLastModified
 end
 
-function M.make_lspsaga_breadcrumbs()
-  local Breadcrumbs = {
-    condition = function(self)
-      if not conditions.lsp_attached() then
-        return false
-      end
-      local ok, winbar = pcall(require, "lspsaga.symbol.winbar")
-      if not ok then
-        return false
-      end
-      local breadcrumbs = winbar.get_bar()
-      if breadcrumbs == nil then
-        return false
-      end
-      self.breadcrumbs = breadcrumbs
-      return true
-    end,
-    provider = function(self)
-      return self.breadcrumbs
-    end,
-    update = { "CursorMoved", "LspAttach", "LspDetach" },
-  }
-  return Breadcrumbs
-end
-
 function M.make_diagnostics()
   local Diagnostics = {
 

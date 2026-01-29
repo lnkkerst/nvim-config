@@ -49,7 +49,6 @@ M.servers = {
   ["mesonlsp"] = { format = true },
   ["nginx_language_server"] = {},
   ["vale_ls"] = {},
-  ["cspell_ls"] = {},
 
   -- Other lang
   ["lua_ls"] = { format = false },
@@ -110,9 +109,8 @@ M.setup = function()
       },
     },
     update_in_insert = true,
-    underline = false,
+    underline = true,
     severity_sort = true,
-    float = false,
   })
 
   -- User LSP attach config
