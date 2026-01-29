@@ -2,33 +2,59 @@
 return {
   {
     "kevinhwang91/nvim-hlslens",
-    enabled = true,
     version = false,
     event = { "CmdlineEnter" },
     opts = {},
-    config = function(_, opts)
-      require("hlslens").setup(opts)
-      local kopts = { noremap = true, silent = true }
-
-      vim.api.nvim_set_keymap(
+    keys = {
+      {
         "n",
-        "n",
-        [[<Cmd>execute("normal! " . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
-        kopts
-      )
-      vim.api.nvim_set_keymap(
-        "n",
+        [[<Cmd>execute('normal! ' .. v:count1 .. 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
+        mode = "n",
+        noremap = true,
+        silent = true,
+        desc = "Next search result with hlslens",
+      },
+      {
         "N",
-        [[<Cmd>execute("normal! " . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
-        kopts
-      )
-      vim.api.nvim_set_keymap("n", "*", [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-      vim.api.nvim_set_keymap("n", "#", [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-      vim.api.nvim_set_keymap("n", "g*", [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-      vim.api.nvim_set_keymap("n", "g#", [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-
-      -- vim.api.nvim_set_keymap("n", "<Leader>l", ":noh<CR>", kopts)
-    end,
+        [[<Cmd>execute('normal! ' .. v:count1 .. 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
+        mode = "n",
+        noremap = true,
+        silent = true,
+        desc = "Prev search result with hlslens",
+      },
+      {
+        "*",
+        [[*<Cmd>lua require('hlslens').start()<CR>]],
+        mode = "n",
+        noremap = true,
+        silent = true,
+        desc = "Search word under cursor forward with hlslens",
+      },
+      {
+        "#",
+        [[#<Cmd>lua require('hlslens').start()<CR>]],
+        mode = "n",
+        noremap = true,
+        silent = true,
+        desc = "Search word under cursor backward with hlslens",
+      },
+      {
+        "g*",
+        [[g*<Cmd>lua require('hlslens').start()<CR>]],
+        mode = "n",
+        noremap = true,
+        silent = true,
+        desc = "Search partial word forward with hlslens",
+      },
+      {
+        "g#",
+        [[g#<Cmd>lua require('hlslens').start()<CR>]],
+        mode = "n",
+        noremap = true,
+        silent = true,
+        desc = "Search partial word backward with hlslens",
+      },
+    },
   },
 
   {

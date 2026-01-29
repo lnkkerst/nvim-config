@@ -119,7 +119,9 @@ M.setup = function()
     callback = function(ev)
       -- Disable semantic tokens
       local client = vim.lsp.get_client_by_id(ev.data.client_id)
-      client.server_capabilities.semanticTokensProvider = nil
+      if client ~= nil then
+        client.server_capabilities.semanticTokensProvider = nil
+      end
     end,
   })
 
