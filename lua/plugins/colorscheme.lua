@@ -48,15 +48,12 @@ return {
           gitsigns = true,
           treesitter = true,
           treesitter_context = true,
-          aerial = true,
           mason = true,
           neogit = true,
           rainbow_delimiters = true,
-          lsp_saga = true,
           which_key = true,
           fidget = true,
           dap = true,
-          dap_ui = true,
           native_lsp = {
             enabled = true,
             virtual_text = {
@@ -84,9 +81,7 @@ return {
           grug_far = true,
           fzf = true,
           blink_cmp = true,
-          diffview = true,
           nvim_surround = true,
-          ufo = true,
           snacks = true,
           copilot_vim = true,
           mini = {
