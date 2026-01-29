@@ -248,6 +248,15 @@ return {
         desc = "Pick LSP outgoing calls",
       },
 
+      -- terminal
+      {
+        [[<C-\>]],
+        function()
+          require("snacks").terminal.toggle()
+        end,
+        mode = { "i", "n", "t" },
+      },
+
       -- other
       {
         "<M-f>",
@@ -257,16 +266,6 @@ return {
         desc = "Toggle Zen Mode",
       },
     }
-
-    if vim.g.default_terminal == "snacks" then
-      table.insert(keys, {
-        [[<C-\>]],
-        function()
-          require("snacks").terminal.toggle()
-        end,
-        mode = { "i", "n", "t" },
-      })
-    end
 
     return keys
   end,

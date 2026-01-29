@@ -17,7 +17,7 @@ return {
           builtins.formatting.shfmt,
           builtins.formatting.prettierd.with({
             condition = function()
-              return cond.has_prettier()
+              return not cond.has_biome()
             end,
           }),
           builtins.formatting.fish_indent,

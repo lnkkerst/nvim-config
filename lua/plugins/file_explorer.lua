@@ -46,20 +46,4 @@ return {
       },
     },
   },
-
-  {
-    "mikavilpas/yazi.nvim",
-    enabled = true,
-    cmd = { "Yazi" },
-    dependencies = { "folke/snacks.nvim", lazy = true },
-    opts = {
-      yazi_floating_window_border = "single",
-    },
-  },
-
-  {
-    "echasnovski/mini.files",
-    lazy = true,
-    opts = {},
-  },
 }

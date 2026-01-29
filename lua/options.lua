@@ -219,12 +219,9 @@ local options = {
 }
 
 local globals = {
-  -- default_file_explorer = "nvim-tree",
-  -- default_file_explorer = "neo-tree",
-  default_file_explorer = "snacks_explorer",
-  -- default_terminal = "toggleterm",
-  default_terminal = "snacks",
   mason_auto_install = vim.env["NVIM_MASON_AUTO_INSTALL"] ~= nil,
+
+  show_tabline = false,
 }
 
 for k, v in pairs(options) do

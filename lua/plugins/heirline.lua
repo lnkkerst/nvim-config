@@ -16,8 +16,7 @@ return {
 
       return {
         statusline = statuslines.Statusline,
-        -- winbar = { statuslines.WinBar },
-        tabline = { tabline.make_bufferline() },
+        tabline = vim.g.showtabline and { tabline.make_bufferline() } or nil,
         opts = {
           colors = colors.setup(),
           disable_winbar_cb = function(args)
@@ -30,21 +29,23 @@ return {
       }
     end,
     init = function()
-      vim.opt.showtabline = 2
+      if vim.g.showtabline then
+        vim.opt.showtabline = 2
 
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = { "snacks_dashboard" },
-        callback = function()
-          vim.opt.showtabline = 0
-        end,
-      })
+        vim.api.nvim_create_autocmd("FileType", {
+          pattern = { "snacks_dashboard" },
+          callback = function()
+            vim.opt.showtabline = 0
+          end,
+        })
 
-      vim.api.nvim_create_autocmd("BufWinLeave", {
-        pattern = "*",
-        callback = function()
-          vim.opt.showtabline = 2
-        end,
-      })
+        vim.api.nvim_create_autocmd("BufWinLeave", {
+          pattern = "*",
+          callback = function()
+            vim.opt.showtabline = 2
+          end,
+        })
+      end
     end,
     config = function(_, opts)
       vim.api.nvim_set_hl(0, "StatusLine", {})

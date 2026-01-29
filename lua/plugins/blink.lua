@@ -75,13 +75,6 @@ return {
         menu = {
           auto_show = true,
           border = "single",
-          -- draw = {
-          --   treesitter = { "lsp" },
-          --   columns = {
-          --     { "label", "label_description", gap = 1 },
-          --     { "kind", "source_name", gap = 1 },
-          --   },
-          -- },
           draw = {
             -- We don't need label_description now because label and label_description are already
             -- combined together in label by colorful-menu.nvim.

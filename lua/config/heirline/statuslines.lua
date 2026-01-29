@@ -97,18 +97,6 @@ local QuickfixStatusline = {
   Space,
 }
 
-local Breadcrumbs = components.make_lspsaga_breadcrumbs()
-local WinBar = {
-  fallthrough = false,
-  Breadcrumbs,
-  {
-    components.make_filename({
-      with_flags = false,
-    }),
-    hl = "SagaFilename",
-  },
-}
-
 M.Statusline = {
   static = {
     mode_colors_map = {
@@ -138,7 +126,5 @@ M.Statusline = {
   QuickfixStatusline,
   DefaultStatusline,
 }
-
-M.WinBar = WinBar
 
 return M
