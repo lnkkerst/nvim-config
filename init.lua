@@ -46,7 +46,6 @@ require("lazy").setup({
     end,
     version = "*",
   },
-  ui = { border = "single" },
   performance = {
     rtp = {
       disabled_plugins = {

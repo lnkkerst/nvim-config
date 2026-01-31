@@ -141,44 +141,20 @@ map_multistep({ "i" }, "<C-y>", {
     end,
     action = function() end,
   },
-  -- Minuet inline completion
-  {
-    condition = function()
-      local ok, minuet = pcall(require, "minuet.virtualtext")
-      return ok and minuet.action.is_visible()
-    end,
-    action = function()
-      local action = require("minuet.virtualtext").action
-      return action.accept()
-    end,
-  },
-  -- llm-ls
-  {
-    condition = function()
-      local ok, completion = pcall(require, "llm.completion")
-      return ok and completion.suggestion
-    end,
-    action = function()
-      vim.schedule(require("llm.completion").complete)
-    end,
-  },
 })
 
 -- Tab
 map_multistep({ "i" }, "<Tab>", {
   "vimsnippet_next",
   "increase_indent",
-  "jump_after_close",
   "jump_after_tsnode",
-  {
-    condition = function()
-      return true
-    end,
-    action = function()
-      return "<Tab>"
-    end,
-  },
+  "jump_after_close",
 }, {})
+
+map_multistep({ "i" }, "<S-Tab>", {
+  "vimsnippet_prev",
+  "decrease_indent",
+})
 
 -- NES
 map_multistep({ "n" }, "<C-y>", {
@@ -192,26 +168,17 @@ map_multistep({ "n" }, "<C-y>", {
   },
 })
 
-map_multistep({ "i" }, "<S-Tab>", {
-  "vimsnippet_prev",
-  "decrease_indent",
-  "jump_before_open",
-  "jump_before_tsnode",
-})
-
 -- CR & BS
 map_multistep({ "i" }, "<CR>", {
   "blink_accept",
   "nvimautopairs_cr",
 })
-
 map_multistep({ "i" }, "<BS>", { "nvimautopairs_bs" })
 
 -- No hlsearch
 map_combo({ "n", "i", "x", "c" }, "<Esc><Esc>", function()
   vim.cmd("nohlsearch")
 end)
-map({ "n" }, "<leader>l", "<cmd>nohl<cr>")
 
 -- Cancel completion
 map({ "i", "c" }, "<C-e>", function()

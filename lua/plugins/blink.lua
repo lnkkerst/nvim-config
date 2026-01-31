@@ -19,7 +19,10 @@ return {
     ---@type blink.cmp.Config
     opts = {
       enabled = function()
-        return vim.bo.buftype ~= "prompt"
+        if vim.tbl_contains({ "prompt" }, vim.bo.buftype) then
+          return false
+        end
+        return true
       end,
 
       appearance = {
@@ -33,6 +36,15 @@ return {
             name = "LazyDev",
             module = "lazydev.integrations.blink",
             score_offset = 100,
+          },
+          buffer = {
+            opts = {
+              get_bufnrs = function()
+                return vim.tbl_filter(function(bufnr)
+                  return vim.bo[bufnr].buftype == ""
+                end, vim.api.nvim_list_bufs())
+              end,
+            },
           },
         },
       },
@@ -55,7 +67,7 @@ return {
         },
 
         trigger = {
-          show_in_snippet = false,
+          show_in_snippet = true,
           prefetch_on_insert = false,
         },
 
@@ -74,7 +86,7 @@ return {
 
         menu = {
           auto_show = true,
-          border = "single",
+          auto_show_delay_ms = 100,
           draw = {
             -- We don't need label_description now because label and label_description are already
             -- combined together in label by colorful-menu.nvim.
@@ -98,9 +110,6 @@ return {
         documentation = {
           auto_show = true,
           auto_show_delay_ms = 500,
-          window = {
-            border = "single",
-          },
         },
 
         ghost_text = {
@@ -110,9 +119,6 @@ return {
 
       signature = {
         enabled = true,
-        window = {
-          border = "single",
-        },
       },
 
       cmdline = {
@@ -120,8 +126,6 @@ return {
         keymap = {
           ["<C-j>"] = { "select_next" },
           ["<C-k>"] = { "select_prev" },
-          ["Tab"] = { "fallback" },
-          ["S-Tab"] = { "fallback" },
         },
         completion = {
           menu = {

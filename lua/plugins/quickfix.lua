@@ -5,9 +5,7 @@ return {
     version = false,
     ft = "qf",
     dependencies = {
-      {
-        "junegunn/fzf",
-      },
+      "junegunn/fzf",
     },
     opts = {
       preview = {
@@ -35,6 +33,9 @@ return {
         desc = "Toggle loclist",
       },
     },
+    init = function()
+      vim.api.nvim_set_hl(0, "QuickfixLineNr", { link = "CursorLineNr" })
+    end,
     ---@module "quicker"
     ---@type quicker.SetupOptions
     opts = {},

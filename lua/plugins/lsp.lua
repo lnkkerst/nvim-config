@@ -1,11 +1,5 @@
 ---@type LazySpec
 return {
-  {
-    "j-hui/fidget.nvim",
-    enabled = true,
-    event = { "LspAttach" },
-    opts = {},
-  },
 
   { "b0o/schemastore.nvim", lazy = true, event = { "LspAttach" } },
 

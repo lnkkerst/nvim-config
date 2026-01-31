@@ -27,23 +27,6 @@ return {
           types = {},
           operators = {},
         },
-        custom_highlights = function(colors)
-          return {
-            NormalFloat = { link = "Normal" },
-
-            BlinkCmpMenu = { link = "NormalFloat" },
-            BlinkCmpMenuBorder = { link = "FloatBorder" },
-            BlinkCmpDoc = { link = "NormalFloat" },
-            BlinkCmpDocBorder = { link = "FloatBorder" },
-
-            SnacksIndentScope = { fg = colors.mauve },
-
-            SniprunVirtualTextOk = { link = "@text.note" },
-            SniprunVirtualTextError = { link = "@error" },
-
-            QuickFixLineNr = { fg = colors.subtext0 },
-          }
-        end,
         integrations = {
           gitsigns = true,
           treesitter = true,
