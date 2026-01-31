@@ -49,6 +49,8 @@ M.servers = {
   ["mesonlsp"] = { format = true },
   ["nginx_language_server"] = {},
   ["vale_ls"] = {},
+  ["typos_lsp"] = {},
+  ["harper_ls"] = {},
 
   -- Other lang
   ["lua_ls"] = { format = false },
