@@ -3,6 +3,7 @@ return {
   {
     "echasnovski/mini.ai",
     version = false,
+    vscode = true,
     event = "VeryLazy",
     dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
     opts = function()
