@@ -44,7 +44,6 @@ return {
     },
   },
 
-  -- #FFFFFF
   {
     "uga-rosa/ccc.nvim",
     event = "VeryLazy",
