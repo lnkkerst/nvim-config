@@ -64,11 +64,10 @@
   "schemastore.nvim": { "branch": "main", "commit": "9b6a3ab14cecc7da9f3aa4fa0ae2a7390748aca5" },
   "sidekick.nvim": { "branch": "main", "commit": "dc2710af65a542eb3010136d7664b626633f0229" },
   "smart-splits.nvim": { "branch": "master", "commit": "ebb1375cda434c7a075986e1724fa53d0c754e8f" },
-  "snacks.nvim": { "branch": "main", "commit": "fe7cfe9800a182274d0f868a74b7263b8c0c020b" },
+  "snacks.nvim": { "branch": "main", "commit": "a4e46becca45eb65c73a388634b1ce8aad629ae0" },
   "ssr.nvim": { "branch": "main", "commit": "7c95cfa5836508f08ae833a4b31d2ed265560f64" },
   "swenv.nvim": { "branch": "main", "commit": "4157de2619ec2e5c61c103fb6517845a0e04e558" },
   "tiny-inline-diagnostic.nvim": { "branch": "main", "commit": "ecce93ff7db4461e942c03e0fcc64bd785df4057" },
-  "vim-flog": { "branch": "master", "commit": "e7a0e9f6f26d154b1e550de94414ea71e354c563" },
   "vim-fugitive": { "branch": "master", "commit": "96c1009fcf8ce60161cc938d149dd5a66d570756" },
   "vim-matchup": { "branch": "master", "commit": "0fb1e6b7cea34e931a2af50b8ad565c5c4fd8f4d" },
   "which-key.nvim": { "branch": "main", "commit": "fcbf4eea17cb299c02557d576f0d568878e354a4" }
