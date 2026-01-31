@@ -113,10 +113,6 @@ return {
     -- selene: allow(global_usage)
     vim.print = _G.dd
 
-    vim.api.nvim_create_user_command("Gitbrowse", function()
-      require("snacks").gitbrowse()
-    end, { desc = "Browse the repo of current file" })
-
     vim.api.nvim_create_user_command("Lazygit", function()
       ---@diagnostic disable-next-line: missing-fields
       require("snacks").lazygit({

@@ -85,12 +85,10 @@ return {
     -- branch = "develop", -- if you want develop branch
     -- keep in mind, it might break everything
     ft = "go",
-    cmd = { "GoInstallDeps" },
     dependencies = {
       "nvim-lua/plenary.nvim",
       "mfussenegger/nvim-dap", -- (optional) only if you use `gopher.dap`
     },
-
     -- (optional) will update plugin's deps on every update
     build = function()
       require("gopher")

@@ -7,6 +7,7 @@ return {
   },
   {
     "tpope/vim-fugitive",
+    lazy = false,
     cmd = {
       "G",
       "Git",
@@ -33,13 +34,6 @@ return {
       "GRemove",
       "GUnlink",
       "GBrowse",
-    },
-  },
-  {
-    "rbong/vim-flog",
-    cmd = { "Flog", "Flogsplit", "Floggit" },
-    dependencies = {
-      "tpope/vim-fugitive",
     },
   },
 }

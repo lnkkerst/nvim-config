@@ -6,9 +6,7 @@ return {
     vscode = true,
     opts = {
       preset = "modern",
-      icons = {
-        mappings = false,
-      },
+      delay = 1000,
       win = {
         border = "single",
       },
@@ -32,16 +30,6 @@ return {
         { "<leader>q", group = "Quickfix" },
       })
     end,
-  },
-
-  {
-    "ahmedkhalf/project.nvim",
-    event = "VeryLazy",
-    name = "project_nvim",
-    opts = {
-      manual_mode = true,
-      ignore_lsp = { "null-ls", "copilot", "typos_lsp" },
-    },
   },
 
   {
@@ -71,7 +59,6 @@ return {
     cmd = { "Refactor" },
     dependencies = {
       { "nvim-lua/plenary.nvim" },
-      { "nvim-treesitter/nvim-treesitter" },
     },
     opts = {},
   },
