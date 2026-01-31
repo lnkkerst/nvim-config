@@ -4,13 +4,6 @@ return {
     "folke/which-key.nvim",
     event = "VeryLazy",
     vscode = true,
-    opts = {
-      preset = "modern",
-      delay = 1000,
-      win = {
-        border = "single",
-      },
-    },
     keys = {
       {
         "<leader>?",
@@ -18,6 +11,16 @@ return {
           require("which-key").show({ global = false })
         end,
         desc = "Buffer Local Keymaps (which-key)",
+      },
+    },
+    opts = {
+      preset = "modern",
+      delay = 1000,
+      icons = {
+        mappings = false,
+      },
+      win = {
+        border = "single",
       },
     },
     config = function(_, opts)

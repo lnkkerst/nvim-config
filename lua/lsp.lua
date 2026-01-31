@@ -1,6 +1,6 @@
 local M = {}
 
-local lsp_setup = false
+local lsp_setup_done = false
 
 ---@class ServerConfig
 ---@field enabled? boolean
@@ -68,27 +68,31 @@ M.servers = {
   ["copilot"] = { enabled = false },
 }
 
+-- Populate server lists efficiently
 M.server_lists = {
-  enabled_servers = vim.tbl_filter(function(server)
-    return M.servers[server].enabled ~= false
-  end, vim.tbl_keys(M.servers)),
-
-  -- Auto install with mason.nvim
-  servers_with_mason = vim.tbl_filter(function(server)
-    return M.servers[server].mason_install ~= false and M.servers[server].enabled ~= false
-  end, vim.tbl_keys(M.servers)),
-
-  -- LSP format on save
-  servers_with_format = vim.tbl_filter(function(server)
-    return M.servers[server].format == true
-  end, vim.tbl_keys(M.servers)),
+  enabled_servers = {},
+  servers_with_mason = {},
+  servers_with_format = {},
 }
 
+for server, config in pairs(M.servers) do
+  if config.enabled ~= false then
+    table.insert(M.server_lists.enabled_servers, server)
+    if config.mason_install ~= false then
+      table.insert(M.server_lists.servers_with_mason, server)
+    end
+    if config.format == true then
+      table.insert(M.server_lists.servers_with_format, server)
+    end
+  end
+end
+
 M.setup = function()
-  if lsp_setup then
+  if lsp_setup_done then
     vim.notify("LSP already setup", vim.log.levels.WARN)
     return
   end
+  lsp_setup_done = true
 
   -- Auto set loclist
   vim.diagnostic.handlers.loclist = {
@@ -117,7 +121,7 @@ M.setup = function()
 
   -- User LSP attach config
   vim.api.nvim_create_autocmd("LspAttach", {
-    group = vim.api.nvim_create_augroup("user_lsp_attach", {}),
+    group = vim.api.nvim_create_augroup("user_lsp_attach", { clear = true }),
     callback = function(ev)
       -- Disable semantic tokens
       local client = vim.lsp.get_client_by_id(ev.data.client_id)
@@ -132,9 +136,10 @@ M.setup = function()
     capabilities = vim.lsp.protocol.make_client_capabilities(),
   })
 
+  -- Apply overrides
   for server, config in pairs(M.servers) do
-    local override = config.override
-    if override ~= nil then
+    if config.override then
+      local override = config.override
       if type(override) == "function" then
         override = override()
       end
@@ -160,49 +165,42 @@ M.setup = function()
       if not format_enabled then
         return
       end
-
       lsp_format()
     end,
   })
 
   vim.api.nvim_create_user_command("LspFormat", function(args)
-    if args.fargs[1] == nil then
+    local arg = args.fargs[1]
+    if not arg then
       lsp_format()
       return
     end
 
-    if args.fargs[1] == "enable" then
+    if arg == "enable" then
       format_enabled = true
-    elseif args.fargs[1] == "disable" then
-      format_enabled = false
-    elseif args.fargs[1] == "toggle" then
-      format_enabled = not format_enabled
-    else
-      vim.notify("Invalid argument: " .. args.fargs[1], vim.log.levels.ERROR)
-      return
-    end
-
-    if format_enabled then
       vim.notify("LSP format enabled")
-    else
+    elseif arg == "disable" then
+      format_enabled = false
       vim.notify("LSP format disabled")
+    elseif arg == "toggle" then
+      format_enabled = not format_enabled
+      vim.notify("LSP format " .. (format_enabled and "enabled" or "disabled"))
+    else
+      vim.notify("Invalid argument: " .. arg, vim.log.levels.ERROR)
     end
   end, {
-    desc = "Toggle LSP formatting",
+    desc = "Toggle or trigger LSP formatting",
     nargs = "?",
-    complete = function(arg)
-      local list = { "toggle", "enable", "disable" }
+    complete = function(arg_lead)
       return vim.tbl_filter(function(s)
-        return string.match(s, "^" .. arg)
-      end, list)
+        return s:find("^" .. arg_lead)
+      end, { "toggle", "enable", "disable" })
     end,
   })
 
   if vim.fn.has("nvim-0.12") == 1 then
     vim.lsp.inline_completion.enable(true)
   end
-
-  lsp_setup = true
 end
 
 return M
