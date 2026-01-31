@@ -62,47 +62,8 @@ return {
       extensions = {},
     },
     config = function(_, opts)
-      require("config.codecompanion.fidget_spinner"):init()
+      require("config.codecompanion.spinner"):init()
       require("codecompanion").setup(opts)
-    end,
-  },
-
-  {
-    "milanglacier/minuet-ai.nvim",
-    event = { "InsertEnter", "LazyFile" },
-    enabled = function()
-      -- Disabled by default
-      return vim.env["NVIM_MINUET_CONFIG"] ~= nil and false
-    end,
-    opts = function()
-      local env_config_str = vim.env["NVIM_MINUET_CONFIG"]
-      local env_config = vim.json.decode(env_config_str)
-
-      local config = {
-        provider = "openai_compatible",
-        provider_options = {
-          openai_compatible = {
-            model = env_config.model,
-            end_point = env_config.end_point,
-            api_key = env_config.api_key,
-            name = "OpenAI Compatible",
-          },
-        },
-
-        virtualtext = {
-          auto_trigger_ft = { "*" },
-          keymap = {
-            prev = "<A-[>",
-            next = "<A-]>",
-          },
-        },
-      }
-
-      if env_config.override ~= nil then
-        config = vim.tbl_extend("force", config, env_config.override)
-      end
-
-      return config
     end,
   },
 

@@ -3,6 +3,7 @@ return {
   {
     "stevearc/oil.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
+    version = false,
     lazy = false,
     keys = {
       { "<leader>o", "<cmd>Oil<cr>", desc = "Open oil" },
@@ -27,22 +28,6 @@ return {
       delete_to_trash = true,
       view_options = {
         show_hidden = true,
-      },
-
-      float = {
-        border = "single",
-      },
-      confirmation = {
-        border = "single",
-      },
-      progress = {
-        border = "single",
-      },
-      ssh = {
-        border = "single",
-      },
-      keymaps_help = {
-        border = "single",
       },
     },
   },

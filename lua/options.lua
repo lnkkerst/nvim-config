@@ -192,7 +192,7 @@ local options = {
   -- Blend for floating window
   --winblend = 10,
 
-  winborder = "single",
+  winborder = "none",
 
   shada = "!,'300,<50,@100,s10,h",
   redrawtime = 1500,
