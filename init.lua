@@ -3,7 +3,6 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 require("options")
-require("statusline").setup()
 require("neovide")
 require("filetypes")
 
@@ -84,5 +83,6 @@ require("keymap")
 require("lsp").setup()
 require("autocmd")
 require("commands")
+require("statusline").setup()
 
 pcall(require, "overlay")
