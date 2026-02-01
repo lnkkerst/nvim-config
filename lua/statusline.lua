@@ -41,6 +41,7 @@ local mode_map = setmetatable({
 -- State
 local colors = {}
 local icon_hl_cache = {}
+local lsp_progress_text = ""
 
 -- Updates
 local function update_highlights()
@@ -78,6 +79,7 @@ local function update_highlights()
     StlDiagInfo = { fg = ctp.blue, bg = ctp.base },
     StlDiagHint = { fg = ctp.teal, bg = ctp.base },
     StlLsp = { fg = ctp.green, bg = ctp.base, bold = true },
+    StlLspProgress = { fg = ctp.yellow, bg = ctp.base },
     StlFileIcon = { fg = ctp.blue, bg = ctp.base },
     StlFileMod = { fg = ctp.green, bg = ctp.base },
     StlFileRo = { fg = ctp.red, bg = ctp.base },
@@ -180,6 +182,13 @@ function stl.lsp()
   return vim.b.stl_lsp or ""
 end
 
+function stl.lsp_progress()
+  if lsp_progress_text == "" then
+    return ""
+  end
+  return string.format("%%#StlLspProgress#%s", lsp_progress_text)
+end
+
 function stl.file()
   local fname = vim.fn.expand("%:t")
   if fname == "" then
@@ -226,6 +235,18 @@ end
 
 -- Renderers
 function M.render_active()
+  if vim.bo.filetype == "oil" then
+    local dir = vim.fn.expand("%:p"):gsub("^oil://", "")
+    return string.format("%s %%#StlFile#  %s", stl.mode(), vim.fn.fnamemodify(dir, ":~"))
+  end
+
+  if vim.bo.filetype == "qf" then
+    local is_loc = vim.fn.getloclist(0, { filewinid = 0 }).filewinid ~= 0
+    local type = is_loc and "Location List" or "Quickfix List"
+    local title = vim.w.quickfix_title or ""
+    return string.format("%s %%#StlFile# %s: %s", stl.mode(), type, title)
+  end
+
   return table.concat({
     stl.mode(),
     " ",
@@ -234,6 +255,8 @@ function M.render_active()
     stl.diagnostics(),
     " ",
     stl.lsp(),
+    " ",
+    stl.lsp_progress(),
     "%=",
     "%S ",
     stl.file(),
@@ -264,6 +287,31 @@ function M.setup()
     group = grp,
     callback = function(a)
       M.update_lsp(a.buf)
+    end,
+  })
+
+  ---@type uv.uv_timer_t?
+  local lsp_timer = nil
+  api.nvim_create_autocmd("LspProgress", {
+    group = grp,
+    callback = function(ev)
+      if lsp_timer and lsp_timer:is_active() then
+        lsp_timer:stop()
+        lsp_timer:close()
+        lsp_timer = nil
+      end
+      local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
+      local done = ev.data.params.value.kind == "end"
+      local icon = done and " " or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
+      lsp_progress_text = icon .. vim.lsp.status()
+      vim.cmd.redrawstatus()
+
+      if done then
+        lsp_timer = vim.defer_fn(function()
+          lsp_progress_text = ""
+          vim.cmd.redrawstatus()
+        end, 3000)
+      end
     end,
   })
 
