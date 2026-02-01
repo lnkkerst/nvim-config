@@ -125,7 +125,7 @@ return {
           require("smart-splits").swap_buf_right()
         end,
         desc = "Swap buffer right",
-        mode = { "n", "t" },
+        mode = { "n" },
       },
     },
     opts = {
