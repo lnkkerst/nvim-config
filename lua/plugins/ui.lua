@@ -100,7 +100,7 @@ return {
           require("smart-splits").swap_buf_left()
         end,
         desc = "Swap buffer left",
-        mode = { "n", "t" },
+        mode = { "n" },
       },
       {
         "<leader><leader>j",
@@ -108,7 +108,7 @@ return {
           require("smart-splits").swap_buf_down()
         end,
         desc = "Swap buffer down",
-        mode = { "n", "t" },
+        mode = { "n" },
       },
       {
         "<leader><leader>k",
@@ -116,7 +116,7 @@ return {
           require("smart-splits").swap_buf_up()
         end,
         desc = "Swap buffer up",
-        mode = { "n", "t" },
+        mode = { "n" },
       },
       {
         "<leader><leader>l",
