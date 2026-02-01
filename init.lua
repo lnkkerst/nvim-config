@@ -3,6 +3,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 require("options")
+require("statusline").setup()
 require("neovide")
 require("filetypes")
 
