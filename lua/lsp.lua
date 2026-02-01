@@ -65,7 +65,6 @@ M.servers = {
 
   -- Generic
   ["null-ls"] = { enabled = false, format = true, mason_install = false },
-  ["copilot"] = { enabled = false },
 }
 
 -- Populate server lists efficiently
@@ -81,9 +80,9 @@ for server, config in pairs(M.servers) do
     if config.mason_install ~= false then
       table.insert(M.server_lists.servers_with_mason, server)
     end
-    if config.format == true then
-      table.insert(M.server_lists.servers_with_format, server)
-    end
+  end
+  if config.format == true then
+    table.insert(M.server_lists.servers_with_format, server)
   end
 end
 
