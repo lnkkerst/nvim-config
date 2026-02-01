@@ -1,8 +1,7 @@
 local M = {}
+local api = vim.api
 
-local stl = {}
-
--- Icons
+-- Configuration & Icons
 local icons = {
   git = "",
   lsp = "",
@@ -15,68 +14,39 @@ local icons = {
   lock = "",
 }
 
--- Mode map
-local modes = {
+local modes = setmetatable({
   ["n"] = "NORMAL",
   ["no"] = "NORMAL",
-  ["nov"] = "NORMAL",
-  ["noV"] = "NORMAL",
-  ["no\22"] = "NORMAL",
-  ["niI"] = "NORMAL",
-  ["niR"] = "NORMAL",
-  ["niV"] = "NORMAL",
-  ["nt"] = "NORMAL",
   ["v"] = "VISUAL",
-  ["vs"] = "VISUAL",
-  ["V"] = "VISUAL LINE",
-  ["Vs"] = "VISUAL LINE",
-  ["\22"] = "VISUAL BLOCK",
-  ["\22s"] = "VISUAL BLOCK",
+  ["V"] = "V-LINE",
+  ["\22"] = "V-BLOCK",
   ["s"] = "SELECT",
-  ["S"] = "SELECT LINE",
-  ["\19"] = "SELECT BLOCK",
+  ["S"] = "S-LINE",
+  ["\19"] = "S-BLOCK",
   ["i"] = "INSERT",
   ["ic"] = "INSERT",
-  ["ix"] = "INSERT",
   ["R"] = "REPLACE",
-  ["Rc"] = "REPLACE",
-  ["Rx"] = "REPLACE",
-  ["Rv"] = "VISUAL REPLACE",
-  ["Rvc"] = "VISUAL REPLACE",
-  ["Rvx"] = "VISUAL REPLACE",
+  ["Rv"] = "V-REPLACE",
   ["c"] = "COMMAND",
   ["cv"] = "EX",
   ["r"] = "...",
   ["rm"] = "MOAR",
-  ["r?"] = "CONFIRM",
-  ["!"] = "SHELL",
   ["t"] = "TERMINAL",
-}
+  ["!"] = "SHELL",
+}, {
+  __index = function(_, k)
+    return k:match("^[niRv]") and "NORMAL" or k
+  end,
+})
 
--- Colors (Cache)
+-- Highlight Group Management
 local colors = {}
-local function update_colors()
+local function update_highlights()
   local ok, palette = pcall(require, "catppuccin.palettes")
-  if ok then
-    local ctp = palette.get_palette("mocha")
-    colors = {
-      bg = ctp.base,
-      fg = ctp.text,
-      blue = ctp.blue,
-      green = ctp.green,
-      yellow = ctp.yellow,
-      red = ctp.red,
-      mauve = ctp.mauve,
-      peach = ctp.peach,
-      teal = ctp.teal,
-      cyan = ctp.sky,
-      gray = ctp.surface1,
-    }
-  else
-    -- Fallback
-    colors = {
-      bg = "#1e1e2e",
-      fg = "#cdd6f4",
+  local ctp = ok and palette.get_palette("mocha")
+    or {
+      base = "#1e1e2e",
+      text = "#cdd6f4",
       blue = "#89b4fa",
       green = "#a6e3a1",
       yellow = "#f9e2af",
@@ -84,132 +54,144 @@ local function update_colors()
       mauve = "#cba6f7",
       peach = "#fab387",
       teal = "#94e2d5",
-      cyan = "#89dceb",
-      gray = "#45475a",
+      sky = "#89dceb",
+      surface1 = "#45475a",
+    }
+
+  colors = {
+    bg = ctp.base,
+    fg = ctp.text,
+    blue = ctp.blue,
+    green = ctp.green,
+    yellow = ctp.yellow,
+    red = ctp.red,
+    mauve = ctp.mauve,
+    peach = ctp.peach,
+    teal = ctp.teal,
+    cyan = ctp.sky,
+    gray = ctp.surface1,
+  }
+
+  local hls = {
+    StlBg = { bg = colors.bg, fg = colors.fg },
+    StlModeNormal = { fg = colors.bg, bg = colors.blue, bold = true },
+    StlModeInsert = { fg = colors.bg, bg = colors.green, bold = true },
+    StlModeVisual = { fg = colors.bg, bg = colors.mauve, bold = true },
+    StlModeReplace = { fg = colors.bg, bg = colors.peach, bold = true },
+    StlModeCommand = { fg = colors.bg, bg = colors.peach, bold = true },
+    StlGitBranch = { fg = colors.blue, bg = colors.bg, bold = true },
+    StlGitAdd = { fg = colors.green, bg = colors.bg },
+    StlGitChange = { fg = colors.yellow, bg = colors.bg },
+    StlGitDelete = { fg = colors.red, bg = colors.bg },
+    StlDiagError = { fg = colors.red, bg = colors.bg },
+    StlDiagWarn = { fg = colors.yellow, bg = colors.bg },
+    StlDiagInfo = { fg = colors.blue, bg = colors.bg },
+    StlDiagHint = { fg = colors.teal, bg = colors.bg },
+    StlLsp = { fg = colors.green, bg = colors.bg, bold = true },
+    StlFile = { fg = colors.fg, bg = colors.bg },
+    StlFileIcon = { fg = colors.blue, bg = colors.bg },
+    StlFileMod = { fg = colors.green, bg = colors.bg },
+    StlFileRo = { fg = colors.red, bg = colors.bg },
+    StlRuler = { fg = colors.bg, bg = colors.blue, bold = true },
+  }
+
+  for k, v in pairs(hls) do
+    api.nvim_set_hl(0, k, v)
+  end
+end
+
+-- Components
+local stl = {}
+
+function stl.mode()
+  local m = vim.fn.mode()
+  local label = modes[m]
+  local hl = "StlModeNormal"
+
+  if m:find("i") then
+    hl = "StlModeInsert"
+  elseif m:find("[vV\22]") then
+    hl = "StlModeVisual"
+  elseif m:find("R") then
+    hl = "StlModeReplace"
+  elseif m:find("[ct]") then
+    hl = "StlModeCommand"
+  end
+
+  return string.format("%%#%s# %s %%#StlBg#", hl, label)
+end
+
+function stl.git()
+  local signs = vim.b.gitsigns_status_dict
+  if not signs or not signs.head or signs.head == "" then
+    return ""
+  end
+
+  local branch = string.format("%%#StlGitBranch#%s %s", icons.git, signs.head)
+  local diff = {}
+
+  if (signs.added or 0) > 0 then
+    table.insert(diff, string.format("%%#StlGitAdd#+%s", signs.added))
+  end
+  if (signs.changed or 0) > 0 then
+    table.insert(diff, string.format("%%#StlGitChange#~%s", signs.changed))
+  end
+  if (signs.removed or 0) > 0 then
+    table.insert(diff, string.format("%%#StlGitDelete#-%s", signs.removed))
+  end
+
+  return #diff > 0 and string.format("%s %%#StlFile#(%s%%#StlFile#)", branch, table.concat(diff, "")) or branch
+end
+
+local function get_diag_counts()
+  if vim.diagnostic.count then
+    local d = vim.diagnostic.count(0)
+
+    return {
+      error = d[vim.diagnostic.severity.ERROR] or 0,
+      warn = d[vim.diagnostic.severity.WARN] or 0,
+      info = d[vim.diagnostic.severity.INFO] or 0,
+      hint = d[vim.diagnostic.severity.HINT] or 0,
     }
   end
 
-  -- Setup highlights
-  local function set_hl(name, opts)
-    vim.api.nvim_set_hl(0, name, opts)
-  end
+  local c = { error = 0, warn = 0, info = 0, hint = 0 }
 
-  set_hl("StlBg", { bg = colors.bg, fg = colors.fg })
-
-  -- Mode Highlights
-  set_hl("StlModeNormal", { fg = colors.bg, bg = colors.blue, bold = true })
-  set_hl("StlModeInsert", { fg = colors.bg, bg = colors.green, bold = true })
-  set_hl("StlModeVisual", { fg = colors.bg, bg = colors.mauve, bold = true })
-  set_hl("StlModeReplace", { fg = colors.bg, bg = colors.peach, bold = true })
-  set_hl("StlModeCommand", { fg = colors.bg, bg = colors.peach, bold = true })
-
-  set_hl("StlGitBranch", { fg = colors.blue, bg = colors.bg, bold = true })
-  set_hl("StlGitAdd", { fg = colors.green, bg = colors.bg })
-  set_hl("StlGitChange", { fg = colors.yellow, bg = colors.bg })
-  set_hl("StlGitDelete", { fg = colors.red, bg = colors.bg })
-
-  set_hl("StlDiagError", { fg = colors.red, bg = colors.bg })
-  set_hl("StlDiagWarn", { fg = colors.yellow, bg = colors.bg })
-  set_hl("StlDiagInfo", { fg = colors.blue, bg = colors.bg })
-  set_hl("StlDiagHint", { fg = colors.teal, bg = colors.bg })
-
-  set_hl("StlLsp", { fg = colors.green, bg = colors.bg, bold = true })
-
-  set_hl("StlFile", { fg = colors.fg, bg = colors.bg })
-  set_hl("StlFileIcon", { fg = colors.blue, bg = colors.bg })
-  set_hl("StlFileModified", { fg = colors.green, bg = colors.bg })
-  set_hl("StlFileReadonly", { fg = colors.red, bg = colors.bg })
-
-  set_hl("StlRuler", { fg = colors.bg, bg = colors.blue, bold = true })
-  set_hl("StlScrollBar", { fg = colors.green, bg = colors.bg })
-end
-
--- Component: Mode
-function stl.mode()
-  local m = vim.fn.mode()
-  local mode_str = modes[m] or "NORMAL"
-
-  local hl_group = "StlModeNormal"
-
-  if m:find("i") then
-    hl_group = "StlModeInsert"
-  elseif m:find("v") or m:find("V") or m:find("\22") then
-    hl_group = "StlModeVisual"
-  elseif m:find("R") then
-    hl_group = "StlModeReplace"
-  elseif m:find("c") or m:find("t") then
-    hl_group = "StlModeCommand"
-  end
-
-  return string.format("%%#%s# %s %%#StlBg#", hl_group, mode_str)
-end
-
--- Component: Git
-function stl.git()
-  if not vim.b.gitsigns_status_dict then
-    return ""
-  end
-  local signs = vim.b.gitsigns_status_dict
-  local head = signs.head
-  if not head or head == "" then
-    return ""
-  end
-
-  local branch = string.format("%%#StlGitBranch#%s %s", icons.git, head)
-  local diff = ""
-
-  local added = signs.added
-  local changed = signs.changed
-  local removed = signs.removed
-
-  if (added and added > 0) or (changed and changed > 0) or (removed and removed > 0) then
-    if added and added > 0 then
-      diff = diff .. string.format("%%#StlGitAdd#+%s", added)
-    end
-    if changed and changed > 0 then
-      diff = diff .. string.format("%%#StlGitChange#~%s", changed)
-    end
-    if removed and removed > 0 then
-      diff = diff .. string.format("%%#StlGitDelete#-%s", removed)
+  for _, d in ipairs(vim.diagnostic.get(0)) do
+    if d.severity == vim.diagnostic.severity.ERROR then
+      c.error = c.error + 1
+    elseif d.severity == vim.diagnostic.severity.WARN then
+      c.warn = c.warn + 1
+    elseif d.severity == vim.diagnostic.severity.INFO then
+      c.info = c.info + 1
+    elseif d.severity == vim.diagnostic.severity.HINT then
+      c.hint = c.hint + 1
     end
   end
 
-  if diff ~= "" then
-    return branch .. " %#StlFile#(" .. diff .. "%#StlFile#)"
-  end
-  return branch
+  return c
 end
 
--- Component: Diagnostics
 function stl.diagnostics()
-  local count = {
-    error = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR }),
-    warn = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN }),
-    info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO }),
-    hint = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT }),
-  }
+  local c = get_diag_counts()
 
   local parts = {}
-  if count.error > 0 then
-    table.insert(parts, string.format("%%#StlDiagError#%s%d", icons.error, count.error))
-  end
-  if count.warn > 0 then
-    table.insert(parts, string.format("%%#StlDiagWarn#%s%d", icons.warn, count.warn))
-  end
-  if count.info > 0 then
-    table.insert(parts, string.format("%%#StlDiagInfo#%s%d", icons.info, count.info))
-  end
-  if count.hint > 0 then
-    table.insert(parts, string.format("%%#StlDiagHint#%s%d", icons.hint, count.hint))
-  end
 
-  if #parts > 0 then
-    return table.concat(parts, " ")
+  if c.error > 0 then
+    table.insert(parts, string.format("%%#StlDiagError#%s%d", icons.error, c.error))
   end
-  return ""
+  if c.warn > 0 then
+    table.insert(parts, string.format("%%#StlDiagWarn#%s%d", icons.warn, c.warn))
+  end
+  if c.info > 0 then
+    table.insert(parts, string.format("%%#StlDiagInfo#%s%d", icons.info, c.info))
+  end
+  if c.hint > 0 then
+    table.insert(parts, string.format("%%#StlDiagHint#%s%d", icons.hint, c.hint))
+  end
+  return table.concat(parts, " ")
 end
 
--- Component: LSP
 function stl.lsp()
   local clients = vim.lsp.get_clients({ bufnr = 0 })
   if #clients == 0 then
@@ -217,121 +199,100 @@ function stl.lsp()
   end
 
   local names = {}
-  for _, client in ipairs(clients) do
-    table.insert(names, client.name)
+  for _, c in ipairs(clients) do
+    table.insert(names, c.name)
   end
-  local names_str = table.concat(names, " ")
-  local text = string.format("%s [%s]", icons.lsp, names_str)
+  local text = string.format("%s [%s]", icons.lsp, table.concat(names, " "))
 
-  -- Truncate if too long (simple heuristic)
-  if #text > 40 then
-    text = string.format("%s [LSP]", icons.lsp)
-  end
-
-  return "%#StlLsp#" .. text
+  return string.format("%%#StlLsp#%s", #text > 40 and (icons.lsp .. " [LSP]") or text)
 end
 
--- Component: File
 function stl.file()
   local fname = vim.fn.expand("%:t")
   if fname == "" then
     return "[No Name]"
   end
 
-  local ficon = ""
-
+  local ficon, hl = "", "StlFileIcon"
   local ok, devicons = pcall(require, "nvim-web-devicons")
   if ok then
-    local ext = vim.fn.expand("%:e")
-    local icon, color = devicons.get_icon_color(fname, ext, { default = true })
+    local icon, color = devicons.get_icon_color(fname, vim.fn.expand("%:e"), { default = true })
     if icon then
-      vim.api.nvim_set_hl(0, "StlFileIconDynamic", { fg = color, bg = colors.bg })
-      ficon = string.format("%%#StlFileIconDynamic#%s ", icon)
+      hl = "StlFileIconDynamic"
+      api.nvim_set_hl(0, hl, { fg = color, bg = colors.bg })
+      ficon = icon .. " "
     end
   end
 
-  local modified = vim.bo.modified and string.format("%%#StlFileModified#%s", icons.modified) or ""
-  local readonly = (not vim.bo.modifiable or vim.bo.readonly) and string.format("%%#StlFileReadonly#%s", icons.readonly)
-    or ""
+  local mod = vim.bo.modified and string.format("%%#StlFileMod#%s", icons.modified) or ""
+  local ro = (not vim.bo.modifiable or vim.bo.readonly) and string.format("%%#StlFileRo#%s", icons.readonly) or ""
 
-  return string.format("%s%%#StlFile#%s %s%s", ficon, fname, modified, readonly)
+  return string.format("%%#%s#%s%%#StlFile#%s%s%s", hl, ficon, fname, mod, ro)
 end
 
--- Component: File Info (Type, Encoding, Format)
-function stl.file_info()
-  local ft = vim.bo.filetype
-  if ft == "" then
+function stl.info()
+  if vim.bo.filetype == "" then
     return ""
   end
-  local enc = vim.bo.fenc ~= "" and vim.bo.fenc or vim.o.enc
-  local fmt = vim.bo.fileformat
-  return string.format("%%#StlFile#%s %s %s", ft, enc, fmt)
+  return string.format(
+    "%%#StlFile#%s %s %s",
+    vim.bo.filetype,
+    vim.bo.fenc ~= "" and vim.bo.fenc or vim.o.enc,
+    vim.bo.fileformat
+  )
 end
 
--- Component: Ruler
 function stl.ruler()
-  -- %l = line, %L = total lines, %c = column, %P = percent
-  local ruler_text = "%l/%L:%c %P"
-  local hl_group = "StlRuler"
-  return string.format("%%#%s# %s %%#StlBg#", hl_group, ruler_text)
+  return string.format("%%#StlRuler# %s %%#StlBg#", "%l/%L:%c %P")
 end
 
--- Build Active Statusline
+-- Renderers
 function M.render_active()
-  local left = {}
-  table.insert(left, stl.mode())
-  local git = stl.git()
+  local left = { stl.mode() }
+  local git, diag, lsp = stl.git(), stl.diagnostics(), stl.lsp()
+
   if git ~= "" then
-    table.insert(left, "  " .. git)
+    table.insert(left, " " .. git)
   end
-  local diag = stl.diagnostics()
   if diag ~= "" then
     table.insert(left, " " .. diag)
   end
-  local lsp = stl.lsp()
   if lsp ~= "" then
     table.insert(left, " " .. lsp)
   end
 
-  local right = {}
-  -- ShowCmd (%S) usually has its own spacing or is empty
-  table.insert(right, "%S")
-  table.insert(right, stl.file())
-  local info = stl.file_info()
+  local right = { "%S ", stl.file() } -- ShowCmd
+  local info = stl.info()
   if info ~= "" then
-    table.insert(right, "  " .. info)
+    table.insert(right, " " .. info)
   end
-  table.insert(right, "  " .. stl.ruler())
+  table.insert(right, " " .. stl.ruler())
 
-  return string.format("%s%%=%s", table.concat(left, ""), table.concat(right, ""))
+  return table.concat(left, "") .. "%=" .. table.concat(right, "")
 end
 
--- Build Inactive Statusline
 function M.render_inactive()
   return "%#StlBg# %t %m %r %= %y "
 end
 
 function M.setup()
-  update_colors()
+  update_highlights()
+  api.nvim_create_autocmd("ColorScheme", { callback = update_highlights })
 
-  -- Update colors on theme change
-  vim.api.nvim_create_autocmd("ColorScheme", {
-    callback = update_colors,
-  })
-
-  vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
+  local grp = api.nvim_create_augroup("StatusLine", { clear = true })
+  api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
+    group = grp,
     callback = function()
       vim.opt_local.statusline = "%!v:lua.require'statusline'.render_active()"
     end,
   })
-
-  vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
+  api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
+    group = grp,
     callback = function()
       vim.opt_local.statusline = "%!v:lua.require'statusline'.render_inactive()"
     end,
   })
 
-  -- Set global default
   vim.opt.statusline = "%!v:lua.require'statusline'.render_active()"
 end
 
