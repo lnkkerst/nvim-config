@@ -303,7 +303,11 @@ function M.setup()
       local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
       local done = ev.data.params.value.kind == "end"
       local icon = done and " " or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
-      lsp_progress_text = icon .. vim.lsp.status()
+      local text = done and "Done" or vim.lsp.status()
+      if #text > 39 then
+        text = text:sub(1, 36) .. "..."
+      end
+      lsp_progress_text = icon .. text
       vim.cmd.redrawstatus()
 
       if done then
