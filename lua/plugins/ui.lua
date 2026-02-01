@@ -2,6 +2,7 @@
 return {
   {
     "Bekaboo/dropbar.nvim",
+    event = { "LazyFile" },
     opts = {
       bar = {},
       icons = {
@@ -127,6 +128,8 @@ return {
         mode = { "n", "t" },
       },
     },
-    opts = {},
+    opts = {
+      default_amount = 1,
+    },
   },
 }
