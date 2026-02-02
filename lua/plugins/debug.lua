@@ -46,6 +46,8 @@ return {
       {
         "igorlfs/nvim-dap-view",
         version = false,
+        ---@module 'dap-view'
+        ---@type dapview.Config
         opts = {},
       },
     },
@@ -120,14 +122,40 @@ return {
       dap.configurations.c = dap.configurations.cpp
       dap.configurations.rust = dap.configurations.cpp
 
-      dap.adapters.delve = {
-        type = "server",
-        port = "${port}",
-        executable = {
-          command = "dlv",
-          args = { "dap", "-l", "127.0.0.1:${port}" },
+      dap.adapters.go = {
+        type = "executable",
+        command = "vscode-go-adapter",
+      }
+      dap.configurations.go = {
+        {
+          type = "go",
+          name = "Debug(vscode-go)",
+          request = "launch",
+          showLog = false,
+          program = "${file}",
+          dlvToolPath = vim.fn.exepath("dlv"),
         },
       }
+
+      dap.adapters.delve = function(callback, config)
+        if config.mode == "remote" and config.request == "attach" then
+          callback({
+            type = "server",
+            host = config.host or "127.0.0.1",
+            port = config.port or "38697",
+          })
+        else
+          callback({
+            type = "server",
+            port = "${port}",
+            executable = {
+              command = "dlv",
+              args = { "dap", "-l", "127.0.0.1:${port}", "--log", "--log-output=dap" },
+              detached = vim.fn.has("win32") == 0,
+            },
+          })
+        end
+      end
 
       -- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
       dap.configurations.go = {
@@ -184,6 +212,29 @@ return {
           end,
         },
       }
+    end,
+  },
+
+  {
+    "rcarriga/nvim-dap-ui",
+    enabled = false,
+    dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
+    opts = {},
+    config = function(_, opts)
+      local dap, dapui = require("dap"), require("dapui")
+      dapui.setup(opts)
+      dap.listeners.before.attach.dapui_config = function()
+        dapui.open()
+      end
+      dap.listeners.before.launch.dapui_config = function()
+        dapui.open()
+      end
+      dap.listeners.before.event_terminated.dapui_config = function()
+        dapui.close()
+      end
+      dap.listeners.before.event_exited.dapui_config = function()
+        dapui.close()
+      end
     end,
   },
 }
