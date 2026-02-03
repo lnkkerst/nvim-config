@@ -108,8 +108,8 @@ function M.update_lsp(bufnr)
   end
   local text = string.format("%s [%s]", icons.lsp, table.concat(names, " "))
 
-  -- Truncate if too long
-  vim.b[bufnr].stl_lsp = #text > 40 and string.format("%%#StlLsp#%s [LSP]", icons.lsp)
+  -- Truncate if too long or window is too small
+  vim.b[bufnr].stl_lsp = (#text > 40 or vim.o.columns < 120) and string.format("%%#StlLsp#%s [LSP]", icons.lsp)
     or string.format("%%#StlLsp#%s", text)
 end
 
@@ -283,7 +283,7 @@ function M.setup()
       M.update_diagnostics(a.buf)
     end,
   })
-  api.nvim_create_autocmd({ "LspAttach", "LspDetach" }, {
+  api.nvim_create_autocmd({ "LspAttach", "LspDetach", "WinResized" }, {
     group = grp,
     callback = function(a)
       M.update_lsp(a.buf)
