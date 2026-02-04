@@ -58,20 +58,6 @@ return {
   },
 
   {
-    "cshuaimin/ssr.nvim",
-    opts = {},
-    keys = {
-      {
-        "<leader>sr",
-        function()
-          require("ssr").open()
-        end,
-        mode = { "n", "x" },
-      },
-    },
-  },
-
-  {
     "MagicDuck/grug-far.nvim",
     cmd = { "GrugFar" },
     opts = {},
