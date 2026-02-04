@@ -7,7 +7,7 @@ return {
   },
   {
     "tpope/vim-fugitive",
-    lazy = false,
+    -- lazy = false,
     cmd = {
       "G",
       "Git",
@@ -34,6 +34,20 @@ return {
       "GRemove",
       "GUnlink",
       "GBrowse",
+    },
+  },
+
+  {
+    "sindrets/diffview.nvim",
+    opts = {},
+    cmd = {
+      "DiffviewOpen",
+      "DiffviewClose",
+      "DiffviewFileHistory",
+      "DiffviewLog",
+      "DiffviewFocusFiles",
+      "DiffviewRefresh",
+      "DiffviewToggleFiles",
     },
   },
 }

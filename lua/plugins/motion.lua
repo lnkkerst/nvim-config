@@ -9,6 +9,9 @@ return {
         search = { enabled = false },
         char = { jump_labels = true },
       },
+      label = {
+        uppercase = false,
+      },
     },
     config = function(_, opts)
       require("flash").setup(opts)
