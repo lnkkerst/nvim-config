@@ -32,4 +32,34 @@ function M.merge_sets(array1, array2)
   return merged_array
 end
 
+---@generic T : fun(...)
+---@param fn T
+---@return T
+function M.memo(fn)
+  local cache = {}
+  local hash_fn = function(...)
+    return table.concat({ ... }, ",")
+  end
+  local new_fn = {
+    revalidate = function(...)
+      cache[hash_fn(...)] = nil
+    end,
+    clear = function()
+      cache = {}
+    end,
+  }
+  setmetatable(new_fn, {
+    __call = function(_, ...)
+      local key = hash_fn(...)
+      if cache[key] then
+        return cache[key]
+      end
+      local result = fn(...)
+      cache[key] = result
+      return result
+    end,
+  })
+  return new_fn
+end
+
 return M

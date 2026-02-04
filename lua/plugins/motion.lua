@@ -6,7 +6,7 @@ return {
     vscode = true,
     opts = {
       modes = {
-        search = { enabled = true },
+        search = { enabled = false },
         char = { jump_labels = true },
       },
     },

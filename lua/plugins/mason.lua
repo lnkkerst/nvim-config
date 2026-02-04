@@ -1,53 +1,11 @@
 ---@type LazySpec
 return {
   {
-    "mason-org/mason-lspconfig.nvim",
+    "mason-org/mason.nvim",
     version = false,
-    event = { "LazyFile" },
-    opts = function()
-      local lsp = require("lsp")
-      ---@module 'mason-lspconfig'
-      ---@type MasonLspconfigSettings
-      return {
-        ensure_installed = vim.g.mason_auto_install and lsp.server_lists.servers_with_mason or {},
-        automatic_enable = false,
-      }
+    init = function()
+      require("config.mason").init()
     end,
-    dependencies = {
-      { "mason-org/mason.nvim" },
-      { "neovim/nvim-lspconfig", version = false },
-    },
-  },
-
-  { "mason-org/mason.nvim", version = false, opts = {} },
-
-  {
-    "jay-babu/mason-null-ls.nvim",
-    event = { "LazyFile" },
-    dependencies = {
-      "williamboman/mason.nvim",
-      "nvimtools/none-ls.nvim",
-    },
-    opts = {
-      automatic_installation = vim.g.mason_auto_install,
-    },
-  },
-
-  {
-    "jay-babu/mason-nvim-dap.nvim",
-    event = { "LazyFile" },
-    dependencies = {
-      "williamboman/mason.nvim",
-      "mfussenegger/nvim-dap",
-    },
-    opts = {
-      automatic_installation = vim.g.mason_auto_install,
-    },
-  },
-
-  {
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-    event = { "LazyFile" },
     opts = {},
   },
 }

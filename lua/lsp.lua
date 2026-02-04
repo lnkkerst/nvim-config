@@ -7,6 +7,11 @@ local lsp_setup_done = false
 ---@field format? boolean
 ---@field mason_install? boolean
 ---@field override? vim.lsp.Config | fun(): vim.lsp.Config
+---@field mason? ServerConfig.MasonConfig
+---
+---@class ServerConfig.MasonConfig
+---@field name? string
+---@field install? boolean
 
 -- Servers
 ---@type table<string, ServerConfig>
@@ -67,25 +72,6 @@ M.servers = {
   ["null-ls"] = { enabled = false, format = true, mason_install = false },
 }
 
--- Populate server lists efficiently
-M.server_lists = {
-  enabled_servers = {},
-  servers_with_mason = {},
-  servers_with_format = {},
-}
-
-for server, config in pairs(M.servers) do
-  if config.enabled ~= false then
-    table.insert(M.server_lists.enabled_servers, server)
-    if config.mason_install ~= false then
-      table.insert(M.server_lists.servers_with_mason, server)
-    end
-  end
-  if config.format == true then
-    table.insert(M.server_lists.servers_with_format, server)
-  end
-end
-
 M.setup = function()
   if lsp_setup_done then
     vim.notify("LSP already setup", vim.log.levels.WARN)
@@ -137,23 +123,28 @@ M.setup = function()
 
   -- Apply overrides
   for server, config in pairs(M.servers) do
-    if config.override then
-      local override = config.override
-      if type(override) == "function" then
-        override = override()
+    if config.enabled ~= false then
+      if config.override then
+        local override = config.override
+        if type(override) == "function" then
+          override = override()
+        end
+        vim.lsp.config(server, override)
       end
-      vim.lsp.config(server, override)
+
+      vim.lsp.enable(server)
     end
   end
-
-  vim.lsp.enable(M.server_lists.enabled_servers)
 
   local format_enabled = true
 
   local function lsp_format()
     vim.lsp.buf.format({
       filter = function(client)
-        return vim.tbl_contains(M.server_lists.servers_with_format, client.name)
+        local config = M.servers[client.name]
+        if config then
+          return config.format == true
+        end
       end,
     })
   end

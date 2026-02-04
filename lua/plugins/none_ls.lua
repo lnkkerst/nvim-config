@@ -15,7 +15,7 @@ return {
         sources = {
           builtins.formatting.stylua,
           builtins.formatting.shfmt,
-          builtins.formatting.prettierd.with({
+          builtins.formatting.prettier.with({
             condition = function()
               return not cond.has_biome()
             end,
