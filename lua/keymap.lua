@@ -96,30 +96,9 @@ map("i", "<C-j>", "<down>")
 map("i", "<C-k>", "<up>")
 map("i", "<C-l>", "<right>")
 
---[[ Rarely used
--- Move line
-map("n", "<M-j>", "<cmd>move+1<cr>==")
-map("n", "<M-k>", "<cmd>move-2<cr>==")
-map("i", "<M-j>", "<esc><cmd>move+1<cr>==gi")
-map("i", "<M-k>", "<esc><cmd>move-2<cr>==gi")
-map("v", "<M-j>", "<esc><cmd>'<,'>move'>+1<cr>gv=gv")
-map("v", "<M-k>", "<esc><cmd>'<,'>move'<-2<cr>gv=gv")
-]]
-
 -- Cmdline shortcuts
 map("c", "<C-a>", "<Home>")
 map("c", "<C-e>", "<End>")
-
--- Fold by search results
-map("n", "zpr", function()
-  vim.cmd([[
-    setlocal foldexpr=(getline(v:lnum)=~@/)?0:(getline(v:lnum-1)=~@/)|| (getline(v:lnum+1)=~@/)?1:2
-    setlocal foldmethod=expr
-    setlocal foldlevel=0
-    setlocal foldcolumn=2
-    set foldmethod=manual
-  ]])
-end, { noremap = true, desc = "Fold by search results" })
 
 -- Escape
 map_combo({ "i", "c", "s" }, "jk", "<BS><BS><Esc>")
@@ -128,24 +107,27 @@ map_combo({ "t" }, "jk", function()
   vim.api.nvim_feedkeys(keys, "in", true)
 end)
 
+local inline_cmp_step = {
+  condition = function()
+    if vim.fn.has("nvim-0.12") == 0 then
+      return false
+    end
+    return vim.lsp.inline_completion.get()
+  end,
+  action = function() end,
+}
 -- <C-y> for completion confirmation
 map_multistep({ "i" }, "<C-y>", {
   "blink_accept",
   -- Native inline completion
-  {
-    condition = function()
-      if vim.fn.has("nvim-0.12") == 0 then
-        return false
-      end
-      return vim.lsp.inline_completion.get()
-    end,
-    action = function() end,
-  },
+  inline_cmp_step,
 })
 
 -- Tab
 map_multistep({ "i" }, "<Tab>", {
   "vimsnippet_next",
+  "blink_accept",
+  inline_cmp_step,
   "increase_indent",
   "jump_after_tsnode",
   "jump_after_close",
@@ -156,16 +138,19 @@ map_multistep({ "i" }, "<S-Tab>", {
   "decrease_indent",
 })
 
+local sidekick_nes_step = {
+  condition = function()
+    local ok, sidekick = pcall(require, "sidekick")
+    return ok and sidekick.nes_jump_or_apply()
+  end,
+  action = function() end,
+}
 -- NES
 map_multistep({ "n" }, "<C-y>", {
-  -- Sidekick NES
-  {
-    condition = function()
-      local ok, sidekick = pcall(require, "sidekick")
-      return ok and sidekick.nes_jump_or_apply()
-    end,
-    action = function() end,
-  },
+  sidekick_nes_step,
+})
+map_multistep({ "n" }, "<Tab>", {
+  sidekick_nes_step,
 })
 
 -- CR & BS

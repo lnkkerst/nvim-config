@@ -71,6 +71,7 @@ return {
             enabled = true,
           },
           dropbar = true,
+          diffview = true,
         },
       }
     end,

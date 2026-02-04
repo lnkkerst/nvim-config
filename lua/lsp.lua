@@ -70,6 +70,7 @@ M.servers = {
 
   -- Generic
   ["null-ls"] = { enabled = false, format = true, mason_install = false },
+  ["ast-grep"] = {},
 }
 
 M.setup = function()
