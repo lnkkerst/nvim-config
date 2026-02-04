@@ -40,8 +40,6 @@ return {
     "andymass/vim-matchup",
     version = false,
     event = { "BufReadPost" },
-    ---@module 'match-up'
-    ---@type matchup.Config
     opts = {
       matchparen = {
         offscreen = {
