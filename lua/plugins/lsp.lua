@@ -1,5 +1,7 @@
 ---@type LazySpec
 return {
+  { "neovim/nvim-lspconfig", version = false },
+
   { "b0o/schemastore.nvim", lazy = true, event = { "LspAttach" } },
 
   {
