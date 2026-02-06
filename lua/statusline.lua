@@ -5,7 +5,6 @@ local devicons
 -- Constants & Icons
 local icons = {
   git = "",
-  lsp = "",
   error = "",
   warn = "",
   info = "",
@@ -76,9 +75,6 @@ local function update_highlights()
     StlGitDelete = { fg = ctp.red, bg = ctp.base },
     StlDiagError = { fg = ctp.red, bg = ctp.base },
     StlDiagWarn = { fg = ctp.yellow, bg = ctp.base },
-    StlDiagInfo = { fg = ctp.blue, bg = ctp.base },
-    StlDiagHint = { fg = ctp.teal, bg = ctp.base },
-    StlLsp = { fg = ctp.green, bg = ctp.base, bold = true },
     StlLspProgress = { fg = ctp.yellow, bg = ctp.base },
     StlFileIcon = { fg = ctp.blue, bg = ctp.base },
     StlFileMod = { fg = ctp.green, bg = ctp.base },
@@ -89,28 +85,6 @@ local function update_highlights()
   for k, v in pairs(hls) do
     api.nvim_set_hl(0, k, v)
   end
-end
-
--- Event-Driven Updaters
-function M.update_lsp(bufnr)
-  if not api.nvim_buf_is_valid(bufnr) then
-    return
-  end
-  local clients = vim.lsp.get_clients({ bufnr = bufnr })
-  if #clients == 0 then
-    vim.b[bufnr].stl_lsp = ""
-    return
-  end
-
-  local names = {}
-  for _, c in ipairs(clients) do
-    table.insert(names, c.name)
-  end
-  local text = string.format("%s [%s]", icons.lsp, table.concat(names, " "))
-
-  -- Truncate if too long or window is too small
-  vim.b[bufnr].stl_lsp = (#text > 40 or vim.o.columns < 120) and string.format("%%#StlLsp#%s [LSP]", icons.lsp)
-    or string.format("%%#StlLsp#%s", text)
 end
 
 function M.update_diagnostics(bufnr)
@@ -177,9 +151,6 @@ end
 
 function stl.diagnostics()
   return vim.b.stl_diag or ""
-end
-function stl.lsp()
-  return vim.b.stl_lsp or ""
 end
 
 function stl.lsp_progress()
@@ -254,8 +225,6 @@ function M.render_active()
     " ",
     stl.diagnostics(),
     " ",
-    stl.lsp(),
-    " ",
     stl.lsp_progress(),
     "%=",
     "%S ",
@@ -281,12 +250,6 @@ function M.setup()
     group = grp,
     callback = function(a)
       M.update_diagnostics(a.buf)
-    end,
-  })
-  api.nvim_create_autocmd({ "LspAttach", "LspDetach", "WinResized" }, {
-    group = grp,
-    callback = function(a)
-      M.update_lsp(a.buf)
     end,
   })
 
