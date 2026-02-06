@@ -18,6 +18,7 @@ return {
         custom_textobjects = {
           f = gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
         },
+        n_lines = 200,
       }
     end,
   },
