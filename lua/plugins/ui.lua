@@ -52,4 +52,14 @@ return {
       },
     },
   },
+  {
+    "nvim-zh/colorful-winsep.nvim",
+    event = { "WinLeave" },
+    opts = {
+      border = "single",
+      animate = {
+        enabled = false,
+      },
+    },
+  },
 }

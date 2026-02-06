@@ -182,6 +182,7 @@ hydra({ "n" }, "<C-w><space>", "<C-w>", {
   name = "Win",
 })
 
+-- Window movement
 map({ "n" }, "<C-h>", "<C-w>h", { desc = "Move to left window" })
 map({ "n" }, "<C-j>", "<C-w>j", { desc = "Move to bottom window" })
 map({ "n" }, "<C-k>", "<C-w>k", { desc = "Move to top window" })
@@ -191,3 +192,9 @@ map({ "t" }, "<C-h>", "<C-\\><C-N><C-w>h", { desc = "Move to left window" })
 map({ "t" }, "<C-j>", "<C-\\><C-N><C-w>j", { desc = "Move to bottom window" })
 map({ "t" }, "<C-k>", "<C-\\><C-N><C-w>k", { desc = "Move to top window" })
 map({ "t" }, "<C-l>", "<C-\\><C-N><C-w>l", { desc = "Move to right window" })
+
+-- Buffer movement
+map({ "n" }, "]b", ":bnext<cr>", { desc = "Next buffer" })
+map({ "n" }, "[b", ":bprevious<cr>", { desc = "Previous buffer" })
+map({ "n" }, "<M-n>", ":bnext<cr>", { desc = "Next buffer" })
+map({ "n" }, "<M-p>", ":bprevious<cr>", { desc = "Previous buffer" })

@@ -80,6 +80,9 @@ local function update_highlights()
     StlFileMod = { fg = ctp.green, bg = ctp.base },
     StlFileRo = { fg = ctp.red, bg = ctp.base },
     StlRuler = { fg = ctp.base, bg = ctp.blue, bold = true },
+    StlBufferActive = { fg = ctp.mauve, bg = ctp.base, bold = true },
+    StlBufferInactive = { fg = ctp.overlay0, bg = ctp.base },
+    StlBufferSep = { fg = ctp.surface0, bg = ctp.base },
   }
 
   for k, v in pairs(hls) do
@@ -160,6 +163,132 @@ function stl.lsp_progress()
   return string.format("%%#StlLspProgress#%s", lsp_progress_text)
 end
 
+-- Helper: get display width considering multi-byte chars
+local function strwidth(s)
+  return vim.fn.strdisplaywidth(s)
+end
+
+function stl.buffers()
+  local bufs = vim.fn.getbufinfo({ buflisted = 1 })
+  if #bufs == 1 then
+    return ""
+  end
+
+  local max_count = 8
+  local max_width = math.floor(vim.o.columns / 2)
+  local current_buf = vim.api.nvim_get_current_buf()
+  local current_idx = 0
+
+  -- Find current buffer index
+  for i, info in ipairs(bufs) do
+    if info.bufnr == current_buf then
+      current_idx = i
+      break
+    end
+  end
+
+  -- Determine which buffers to show
+  local show_indices = {}
+
+  if #bufs <= max_count then
+    -- Show all
+    for i = 1, #bufs do
+      show_indices[i] = true
+    end
+  else
+    -- Always show current, prev, next
+    show_indices[current_idx] = true
+    if current_idx > 1 then
+      show_indices[current_idx - 1] = true
+    end
+    if current_idx < #bufs then
+      show_indices[current_idx + 1] = true
+    end
+
+    -- Count how many we have so far
+    local show_count = 0
+    for _ in pairs(show_indices) do
+      show_count = show_count + 1
+    end
+
+    -- Fill remaining slots, preferring buffers closer to current
+    local offset = 2 -- Start from 2 since 1 (prev/next) is already shown
+    while show_count < max_count do
+      local filled = false
+
+      -- Add before current
+      if current_idx - offset >= 1 and not show_indices[current_idx - offset] then
+        show_indices[current_idx - offset] = true
+        show_count = show_count + 1
+        filled = true
+      end
+
+      -- Add after current
+      if show_count < max_count and current_idx + offset <= #bufs and not show_indices[current_idx + offset] then
+        show_indices[current_idx + offset] = true
+        show_count = show_count + 1
+        filled = true
+      end
+
+      offset = offset + 1
+      if not filled then
+        break
+      end
+    end
+  end
+
+  -- Build parts with proper order
+  local parts = {}
+  local has_hidden_before = false
+  local has_hidden_after = false
+
+  for i, info in ipairs(bufs) do
+    if show_indices[i] then
+      local name = info.name ~= "" and vim.fn.fnamemodify(info.name, ":t") or "[No Name]"
+      local hl = info.bufnr == current_buf and "StlBufferActive" or "StlBufferInactive"
+      table.insert(parts, { name = name, hl = hl, idx = i })
+    elseif i < current_idx then
+      has_hidden_before = true
+    elseif i > current_idx then
+      has_hidden_after = true
+    end
+  end
+
+  -- Insert dots indicators
+  if has_hidden_before then
+    table.insert(parts, 1, { name = "…", hl = "StlBufferInactive", idx = -1 })
+  end
+  if has_hidden_after then
+    table.insert(parts, { name = "…", hl = "StlBufferInactive", idx = -2 })
+  end
+
+  -- Truncate names if width exceeds limit
+  local total_width = strwidth(table.concat(
+    vim.tbl_map(function(p)
+      return p.name
+    end, parts),
+    " "
+  ))
+
+  if #parts > 0 and total_width > max_width then
+    local avg_width = math.floor(max_width / #parts)
+    for i, p in ipairs(parts) do
+      if strwidth(p.name) > avg_width and p.idx >= 0 then
+        local truncated = vim.fn.strcharpart(p.name, 0, avg_width - 2)
+        parts[i].name = truncated .. ".."
+      end
+    end
+  end
+
+  -- Build result
+  local result_parts = {}
+  for _, p in ipairs(parts) do
+    table.insert(result_parts, string.format("%%#%s#%s%%#StlBg#", p.hl, p.name))
+  end
+
+  return string.format(" %%#StlBg#%s ", table.concat(result_parts, " "))
+end
+
 function stl.file()
   local fname = vim.fn.expand("%:t")
   if fname == "" then
@@ -221,6 +350,7 @@ function M.render_active()
   return table.concat({
     stl.mode(),
     " ",
+    stl.buffers(),
     stl.git(),
     " ",
     stl.diagnostics(),
