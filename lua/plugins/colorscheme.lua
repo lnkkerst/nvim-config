@@ -72,6 +72,7 @@ return {
           },
           dropbar = true,
           diffview = true,
+          barbar = true,
         },
       }
     end,

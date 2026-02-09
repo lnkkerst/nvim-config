@@ -137,8 +137,6 @@ M.setup = function()
     end
   end
 
-  local format_enabled = true
-
   local function lsp_format()
     vim.lsp.buf.format({
       filter = function(client)
@@ -153,7 +151,7 @@ M.setup = function()
   vim.api.nvim_create_autocmd("BufWritePre", {
     group = vim.api.nvim_create_augroup("lsp_format", { clear = true }),
     callback = function()
-      if not format_enabled then
+      if vim.b.format_disabled then
         return
       end
       lsp_format()
@@ -168,14 +166,14 @@ M.setup = function()
     end
 
     if arg == "enable" then
-      format_enabled = true
-      vim.notify("LSP format enabled")
+      vim.b.format_disabled = false
+      vim.notify("LSP format enabled for current buffer")
     elseif arg == "disable" then
-      format_enabled = false
-      vim.notify("LSP format disabled")
+      vim.b.format_disabled = true
+      vim.notify("LSP format disabled for current buffer")
     elseif arg == "toggle" then
-      format_enabled = not format_enabled
-      vim.notify("LSP format " .. (format_enabled and "enabled" or "disabled"))
+      vim.b.format_disabled = not vim.b.format_disabled
+      vim.notify("LSP format " .. (vim.b.format_disabled and "disabled" or "enabled") .. " for current buffer")
     else
       vim.notify("Invalid argument: " .. arg, vim.log.levels.ERROR)
     end

@@ -62,4 +62,34 @@ return {
       },
     },
   },
+
+  {
+    "romgrk/barbar.nvim",
+    lazy = false,
+    keys = {
+      {
+        "]b",
+        "<Cmd>BufferNext<CR>",
+        desc = "Next buffer",
+      },
+      {
+        "[b",
+        "<Cmd>BufferPrevious<CR>",
+        desc = "Previous buffer",
+      },
+      {
+        "<M-n>",
+        "<Cmd>BufferNext<CR>",
+        desc = "Next buffer",
+      },
+      {
+        "<M-p>",
+        "<Cmd>BufferPrevious<CR>",
+        desc = "Previous buffer",
+      },
+    },
+    opts = {
+      animation = false,
+    },
+  },
 }
