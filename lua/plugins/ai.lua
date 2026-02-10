@@ -71,7 +71,7 @@ return {
     event = "VeryLazy",
     keys = {
       { "<leader>ss", "<cmd>Sidekick cli toggle<cr>" },
-      { "<leader>sp", "<cmd>Sidekick cli prompt<cr>" },
+      { "<leader>sp", "<cmd>Sidekick cli prompt<cr>", mode = { "n", "v" } },
     },
     opts = {},
   },
