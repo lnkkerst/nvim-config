@@ -65,6 +65,46 @@ vim.api.nvim_create_autocmd("User", {
 
 map("n", "<leader>w", "<cmd>w<cr>")
 
+-- Accelerated j/k
+local last_jk_time = 0
+local jk_acceleration = 1
+local jk_config = {
+  max_acceleration = 5,
+  decel_threshold = 100,
+  accel_threshold = 100,
+}
+
+local function get_jk_amount(count)
+  local now = vim.loop.now()
+  local delta = now - last_jk_time
+
+  if delta < jk_config.accel_threshold then
+    jk_acceleration = math.min(jk_acceleration + 1, jk_config.max_acceleration)
+  elseif delta > jk_config.decel_threshold then
+    jk_acceleration = 1
+  end
+
+  last_jk_time = vim.loop.now()
+  return count * jk_acceleration
+end
+
+local function accelerated_j()
+  local count = vim.v.count1 == 0 and 1 or vim.v.count1
+  local amount = get_jk_amount(count)
+  vim.api.nvim_feedkeys(amount .. "gj", "n", false)
+end
+
+local function accelerated_k()
+  local count = vim.v.count1 == 0 and 1 or vim.v.count1
+  local amount = get_jk_amount(count)
+  vim.api.nvim_feedkeys(amount .. "gk", "n", false)
+end
+
+map("n", "j", accelerated_j, { silent = true })
+map("n", "k", accelerated_k, { silent = true })
+map("v", "j", accelerated_j, { silent = true })
+map("v", "k", accelerated_k, { silent = true })
+
 -- Move in line
 map({ "n", "v" }, "H", "^", { desc = "Move to the first non-blank character" })
 map({ "n", "v" }, "L", "g_", { desc = "Move to the latest non-blank character" })
