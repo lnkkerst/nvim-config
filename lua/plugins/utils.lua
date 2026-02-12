@@ -31,6 +31,7 @@ return {
         { "<leader>d", group = "DAP" },
         { "<leader>f", group = "Pickers" },
         { "<leader>q", group = "Quickfix" },
+        { "<leader>s", group = "Sidekick" },
       })
     end,
   },

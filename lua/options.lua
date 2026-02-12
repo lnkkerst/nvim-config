@@ -23,6 +23,8 @@ local options = {
   -- Use spaces instead of tabs
   expandtab = true,
 
+  exrc = true,
+
   -- Enable folding
   foldmethod = "expr",
   foldexpr = "v:lua.vim.treesitter.foldexpr()",
