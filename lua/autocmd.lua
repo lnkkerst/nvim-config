@@ -131,3 +131,60 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     vim.hl.on_yank({ higroup = "Search", timeout = 300 })
   end,
 })
+
+-- Highlight diff
+local hl_diff_ns = vim.api.nvim_create_namespace("hl_diff")
+
+local function should_hl_diff(bufnr)
+  local disabled_buftypes = {
+    "neo-tree",
+    "fugitive",
+    "TelescopePrompt",
+    "mason",
+    "lazy",
+    "leetcode.nvim",
+    "snacks_dashboard",
+    "",
+  }
+  if vim.tbl_contains(disabled_buftypes, vim.bo[bufnr].filetype) then
+    return false
+  end
+
+  if vim.bo[bufnr].buftype ~= "" then
+    return false
+  end
+
+  return true
+end
+vim.api.nvim_create_autocmd({ "InsertLeave", "BufEnter" }, {
+  callback = function(args)
+    if not should_hl_diff(args.buf) then
+      return
+    end
+
+    vim.api.nvim_buf_attach(args.buf, false, {
+      on_bytes = function(_, bufnr, _, start_row, start_col, _, _, _, _, new_end_row, new_end_col, _)
+        if vim.api.nvim_get_mode() ~= "n" or not should_hl_diff(bufnr) then
+          return true
+        end
+        local num_lines = vim.api.nvim_buf_line_count(bufnr)
+        local end_row = start_row + new_end_row
+        local end_col = start_col + new_end_col
+
+        if end_row >= num_lines then
+          local last_line = vim.api.nvim_buf_get_lines(bufnr, -2, -1, false)[1]
+          if last_line then
+            end_col = #last_line
+          end
+        end
+
+        vim.schedule(function()
+          (vim.hl or vim.highlight).range(bufnr, hl_diff_ns, "Search", { start_row, start_col }, { end_row, end_col })
+          vim.defer_fn(function()
+            vim.api.nvim_buf_clear_namespace(bufnr, hl_diff_ns, 0, -1)
+          end, 200)
+        end)
+      end,
+    })
+  end,
+})

@@ -21,26 +21,6 @@ return {
   },
 
   {
-    "tzachar/highlight-undo.nvim",
-    event = "VeryLazy",
-    opts = {
-      ignored_filetypes = {
-        "neo-tree",
-        "fugitive",
-        "TelescopePrompt",
-        "mason",
-        "lazy",
-        "leetcode.nvim",
-        "snacks_dashboard",
-      },
-    },
-    config = function(_, opts)
-      require("highlight-undo").setup(opts)
-      vim.api.nvim_set_hl(0, "HighlightUndo", { link = "Search" })
-    end,
-  },
-
-  {
     "nacro90/numb.nvim",
     event = { "CmdlineEnter" },
     vscode = true,
