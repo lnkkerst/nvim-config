@@ -21,13 +21,6 @@ return {
   },
 
   {
-    "nacro90/numb.nvim",
-    event = { "CmdlineEnter" },
-    vscode = true,
-    opts = {},
-  },
-
-  {
     "JoosepAlviste/nvim-ts-context-commentstring",
     lazy = true,
     opts = {

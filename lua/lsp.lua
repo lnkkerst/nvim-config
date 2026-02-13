@@ -42,6 +42,10 @@ M.servers = {
   ["stylelint_lsp"] = {},
   ["cssmodules_ls"] = {},
 
+  -- Go
+  ["gopls"] = {},
+  ["golangci_lint_ls"] = { format = true },
+
   ["jsonls"] = {},
   ["yamlls"] = {},
   ["taplo"] = { format = true },
@@ -60,7 +64,6 @@ M.servers = {
   -- Other lang
   ["lua_ls"] = { format = false },
   ["clangd"] = { format = false },
-  ["gopls"] = { format = true },
   ["jdtls"] = { format = true },
   ["kotlin_language_server"] = { format = true },
   ["zls"] = { format = true },

@@ -26,7 +26,10 @@ return {
           builtins.formatting.dart_format,
           builtins.formatting.csharpier,
           builtins.formatting.clang_format,
-          -- builtins.formatting.rustywind,
+
+          builtins.formatting.goimports,
+          builtins.formatting.gofumpt,
+          -- builtins.formatting.goimports_reviser,
 
           builtins.diagnostics.fish,
           builtins.diagnostics.checkmake,
@@ -36,6 +39,8 @@ return {
             end,
           }),
           builtins.diagnostics.selene,
+
+          builtins.code_actions.refactoring,
         },
       })
 

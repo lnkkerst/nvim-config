@@ -125,8 +125,6 @@ map({ "", "!" }, "<C-c>", "<Esc>")
 map("n", "<leader>C", "yygccp", { desc = "Copy to a comment above", remap = true })
 map("v", "<leader>C", "ygvgc`>p", { remap = true, desc = "Copy to a comment above" })
 
--- map("i", "<S-cr>", "<esc>o")
-
 -- Move in insert mode
 map("i", "<C-h>", "<left>")
 map("i", "<C-j>", "<down>")

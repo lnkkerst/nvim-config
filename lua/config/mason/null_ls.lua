@@ -4,7 +4,7 @@ local null_ls_to_pkg = {
   ["cmake_lint"] = "cmakelint",
   ["cmake_format"] = "cmakelang",
   ["eslint_d"] = "eslint_d",
-  ["goimports_reviser"] = "goimports_reviser",
+  ["goimports_reviser"] = "goimports-reviser",
   ["phpcsfixer"] = "php-cs-fixer",
   ["verible_verilog_format"] = "verible",
   ["lua_format"] = "luaformatter",
@@ -17,6 +17,7 @@ local null_ls_to_pkg = {
   ["fish"] = false,
   ["nginx_beautifier"] = false,
   ["dart_format"] = false,
+  ["refactoring"] = false,
 }
 
 function M.get_null_ls_pkgs()

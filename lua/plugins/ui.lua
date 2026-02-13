@@ -65,7 +65,7 @@ return {
 
   {
     "romgrk/barbar.nvim",
-    lazy = false,
+    event = { "LazyFile" },
     keys = {
       {
         "]b",

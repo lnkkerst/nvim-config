@@ -73,6 +73,7 @@ return {
           dropbar = true,
           diffview = true,
           barbar = true,
+          lsp_trouble = true,
         },
       }
     end,
